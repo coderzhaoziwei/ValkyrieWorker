@@ -1,9 +1,12 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    com.coderzhaoziwei.valkyrie
-// @version      1.0.5
+// @version      1.0.6
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
-// @description  ValkyrieWorker
+// @description  《武神传说》脚本程序的前置库
+// @modified     2021/3/6 23:37:17
+// @license      MIT
+// @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/legend-of-valkyrie/source/image/wakuang.png#12.7kb
 // @match        http://*.wsmud.com/*
 // @run-at       document-start
 // @grant        unsafeWindow

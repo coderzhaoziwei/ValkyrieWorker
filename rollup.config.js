@@ -8,7 +8,10 @@ const metadata = `// ==UserScript==
 // @namespace    com.coderzhaoziwei.valkyrie
 // @version      ${ version }
 // @author       ${ author }
-// @description  ValkyrieWorker
+// @description  《武神传说》脚本程序的前置库
+// @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('en-DE')}
+// @license      MIT
+// @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/legend-of-valkyrie/source/image/wakuang.png#12.7kb
 // @match        http://*.wsmud.com/*
 // @run-at       document-start
 // @grant        unsafeWindow
