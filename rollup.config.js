@@ -1,11 +1,11 @@
 import { name, version, author } from './package.json'
-import cleanup from 'rollup-plugin-cleanup'
 import { string } from 'rollup-plugin-string'
+import cleanup from 'rollup-plugin-cleanup'
 import clear from 'rollup-plugin-clear'
 
 const metadata = `// ==UserScript==
 // @name         ${ name }
-// @namespace    com.coderzhaoziwei.valkyrie
+// @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
 // @version      ${ version }
 // @author       ${ author }
 // @description  《武神传说》脚本程序的前置库
@@ -29,7 +29,7 @@ export default {
     /* 清理输出代码 */
     cleanup(),
     /* 导入为字符串 */
-    string({ include: '*/worker.js' }),
+    string({ include: '*/ValkyrieWorkerContent.js' }),
     /* 清理指定目录 */
     clear({ targets: ['bundle'] }),
   ],
