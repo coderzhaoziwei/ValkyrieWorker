@@ -5,6 +5,10 @@ const workerURL = URL.createObjectURL(workerBlob)
 
 export default class ValkyrieWorker {
   constructor() {
+    /* Vue 3 */
+    this.Vue = Vue
+    this.Element3 = Element3
+
     this.websocket = {
       readyState: 0,
       onopen: () => {},
@@ -78,7 +82,7 @@ export default class ValkyrieWorker {
   off(id) {
     this.eventEmitter.off(id)
   }
- 
+
   hasOwn(any, name) {
     return Object.prototype.hasOwnProperty.call(any, name)
   }

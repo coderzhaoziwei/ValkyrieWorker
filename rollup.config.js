@@ -9,10 +9,12 @@ const metadata = `// ==UserScript==
 // @version      ${ version }
 // @author       ${ author }
 // @description  《武神传说》脚本程序的前置库
+// @match        http://*.wsmud.com/*
 // @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('en-DE')}
 // @license      MIT
-// @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/legend-of-valkyrie/source/image/wakuang.png#12.7kb
-// @match        http://*.wsmud.com/*
+// @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
+// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/vue@3.0.7.global.js
+// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/element3@0.0.38.global.js
 // @run-at       document-start
 // @grant        unsafeWindow
 // ==/UserScript==

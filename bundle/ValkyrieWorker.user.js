@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.18
+// @version      1.0.22
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  《武神传说》脚本程序的前置库
-// @modified     2021/3/8 15:11:31
-// @license      MIT
-// @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/legend-of-valkyrie/source/image/wakuang.png#12.7kb
 // @match        http://*.wsmud.com/*
+// @modified     2021/3/8 16:42:11
+// @license      MIT
+// @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
+// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/vue@3.0.7.global.js
+// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/element3@0.0.38.global.js
 // @run-at       document-start
 // @grant        unsafeWindow
 // ==/UserScript==
@@ -56,6 +58,8 @@
   const workerURL = URL.createObjectURL(workerBlob);
   class ValkyrieWorker {
     constructor() {
+      this.Vue = Vue;
+      this.Element3 = Element3;
       this.websocket = {
         readyState: 0,
         onopen: () => {},
