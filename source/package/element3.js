@@ -1,3 +1,5 @@
+import Vue from './vue'
+
 /*!
   * element3 v0.0.38
   * (c) 2021 kkb
@@ -36574,3 +36576,5 @@ var Element3 = (function (exports, vue) {
   return exports;
 
 }({}, Vue));
+
+export default Element3

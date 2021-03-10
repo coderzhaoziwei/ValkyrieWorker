@@ -13736,3 +13736,5 @@ var Vue = (function (exports) {
   return exports;
 
 }({}));
+
+export default Vue
