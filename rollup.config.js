@@ -13,9 +13,9 @@ const metadata = `// ==UserScript==
 // @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('en-DE')}
 // @license      MIT
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
-// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/vue@3.0.7.global.js
-// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/element3@0.0.38.global.js
 // @run-at       document-start
+// @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
+// @require      https://cdn.jsdelivr.net/npm/element3@0.0.39/dist/element3-ui.global.min.js
 // @grant        unsafeWindow
 // @grant        GM_setValue
 // @grant        GM_getValue

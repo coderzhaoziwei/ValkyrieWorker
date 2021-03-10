@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.62
+// @version      1.0.67
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  《武神传说》脚本程序的前置库
 // @match        http://*.wsmud.com/*
-// @modified     2021/3/10 17:01:40
+// @modified     2021/3/10 18:35:40
 // @license      MIT
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
-// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/vue@3.0.7.global.js
-// @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/element3@0.0.38.global.js
 // @run-at       document-start
+// @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
+// @require      https://cdn.jsdelivr.net/npm/element3@0.0.39/dist/element3-ui.global.min.js
 // @grant        unsafeWindow
 // @grant        GM_setValue
 // @grant        GM_getValue
