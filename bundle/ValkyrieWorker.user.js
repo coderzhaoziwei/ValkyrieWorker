@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.60
+// @version      1.0.62
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  《武神传说》脚本程序的前置库
 // @match        http://*.wsmud.com/*
-// @modified     2021/3/10 16:20:19
+// @modified     2021/3/10 17:01:40
 // @license      MIT
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
 // @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/vue@3.0.7.global.js
@@ -123,9 +123,18 @@
       this.id = data.id;
       this.name = data.name;
       this.count = data.count;
+      this.unit = data.unit;
+      this.value = data.value || 0;
+      this.can_eq = data.can_eq || 0;
+      this.can_use = data.can_use || 0;
+      this.can_study = data.can_study || 0;
+      this.can_combine = data.can_combine || 0;
     }
     get color() {
       return getColorSortByName(this.name)
+    }
+    get isEquip() {
+      return this.can_eq === 1
     }
   }
 
@@ -154,6 +163,8 @@
       this.name = data.name;
       this.level = Number(data.level) || 0;
       this.exp = Number(data.exp) || 0;
+      this.can_enables = data.can_enables || [];
+      this.enable_skill = data.enable_skill || '';
     }
     get color() {
       return getColorSortByName(this.name)
@@ -398,18 +409,18 @@
       this.onData({ type: 'text', text });
     }
     sendCommand(command) {
-      if (this.debugMode === true) console.info(JSON.parse(JSON.stringify(command)));
       this.worker.postMessage({ type: 'sendCommand', args: [command] });
+      this.onData({ type: 'sendCommand', command });
     }
     sendCommands(...args) {
-      if (this.debugMode === true) console.info(JSON.parse(JSON.stringify(args)));
       this.worker.postMessage({ type: 'sendCommands', args });
+      this.onData({ type: 'sendCommands', args });
     }
     on(type, handler) {
-      this.eventEmitter.on(type, handler);
+      return this.eventEmitter.on(type, handler)
     }
     once(type, handler) {
-      this.eventEmitter.once(type, handler);
+      return this.eventEmitter.once(type, handler)
     }
     off(id) {
       this.eventEmitter.off(id);

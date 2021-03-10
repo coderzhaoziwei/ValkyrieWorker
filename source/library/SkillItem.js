@@ -6,6 +6,8 @@ class SkillItem {
     this.name = data.name
     this.level = Number(data.level) || 0
     this.exp = Number(data.exp) || 0
+    this.can_enables = data.can_enables || []
+    this.enable_skill = data.enable_skill || ''
   }
   get color() {
     return getColorSortByName(this.name)
