@@ -10,8 +10,8 @@ import ValkyrieWorker from './library/ValkyrieWorker'
 
   const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler)
 
-  on('roles', data => Valkyrie.account.updateRoles(data.roles))
-  on('login', data => Valkyrie.account.updateId(data.id))
+  on('roles', data => Valkyrie.storage.updateRoles(data.roles))
+  on('login', data => Valkyrie.storage.updateId(data.id))
   on('state', data => Valkyrie.state.updateState(data.state))
   on('room', data => Valkyrie.room.updateRoom(data))
   on('exits', data => Valkyrie.room.updateExit(data.items))

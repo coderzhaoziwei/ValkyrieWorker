@@ -2,7 +2,7 @@ class Score {
   constructor() {
   }
   updateScore(data) {
-    if (data.id === GM_getValue('ValkyrieId')) {
+    if (data.id === unsafeWindow.ID) {
       Object.keys(data).forEach(key => (this[key] = data[key]))
     }
   }

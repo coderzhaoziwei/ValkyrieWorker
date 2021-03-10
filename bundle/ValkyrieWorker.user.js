@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.74
+// @version      1.0.81
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
-// @description  文字游戏《武神传说》脚本程序的基础库
-// @modified     2021/3/10 22:50:15
+// @description  文字游戏《武神传说》的浏览器脚本程序的基础库
+// @modified     2021/3/11 00:44:46
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -31,7 +31,23 @@
 (function () {
   'use strict';
 
+  const setValue = function(key, value) {
+    GM_setValue(key, value);
+  };
+  const getValue = function(key) {
+    GM_getValue(key);
+  };
   const hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+  const getCookie = function(name) {
+    const cookies = document.cookie.split(';').reduce((cookies, cookieString) => {
+      const i = cookieString.indexOf('=');
+      const name = cookieString.substr(0, i).trim();
+      const value = cookieString.substr(i + 1);
+      cookies[name] = value;
+      return cookies
+    }, {});
+    return cookies[name]
+  };
   const getColorSortByName = function(name) {
     const index = [
       /^<(hiw|wht)>/i,
@@ -58,7 +74,7 @@
       this.p = data.p || 0;
     }
     get isSelf() {
-      return this.id === GM_getValue('ValkyrieId')
+      return this.id === unsafeWindow.ID
     }
     get isPlayer() {
       return this.p === 1
@@ -267,48 +283,46 @@
     constructor() {
     }
     updateScore(data) {
-      if (data.id === GM_getValue('ValkyrieId')) {
+      if (data.id === unsafeWindow.ID) {
         Object.keys(data).forEach(key => (this[key] = data[key]));
       }
     }
   }
 
-  const GetCookie = function(name) {
-    const cookies = document.cookie.split(';').reduce((cookies, cookieString) => {
-      const i = cookieString.indexOf('=');
-      const name = cookieString.substr(0, i).trim();
-      const value = cookieString.substr(i + 1);
-      cookies[name] = value;
-      return cookies
-    }, {});
-    return cookies[name]
-  };
-  class Account {
+  class Storage {
     constructor() {
-      this.id = '';
-      this.container = GM_getValue('ValkyrieAccount') || {};
+      this.roles = {};
     }
-    save() {
-      GM_setValue('ValkyrieAccount', this.container);
+    set id(value) {
+      unsafeWindow.ID = value;
+      const id = value;
+      const name = this.roles[id].name;
+      const title = this.roles[id].title;
+      const cookies = { u: getCookie('u'), p: getCookie('p'), s: getCookie('s') };
+      const token = `${ cookies.u } ${ cookies.p }`;
+      const server = ['一区', '二区', '三区', '四区', '测试'][cookies.s];
+      const role = getValue(id) || {};
+      role.id = id;
+      role.name = name;
+      role.title = title;
+      role.cookies = cookies;
+      role.token = token;
+      role.server = server;
+      setValue(id, role);
+      const roles = getValue('ids') || [];
+      const index = roles.findIndex(role => role.id === id);
+      if (index === -1) roles.push({ id, name });
+      setValue('ids', roles);
+      console.log(roles);
+    }
+    get id() {
+      return unsafeWindow.ID
     }
     updateRoles(roles) {
-      roles.forEach(role => {
-        const { name, title, id } = role;
-        this.container[id] = this.container[id] || {};
-        this.container[id].name = name;
-        this.container[id].title = title;
-      });
-      this.save();
+      roles.forEach(role => (this.roles[role.id] = { name: role.name, title: role.title }));
     }
     updateId(id) {
-      const cookies = { u: GetCookie('u'), p: GetCookie('p'), s: GetCookie('s') };
-      this.container[id] = this.container[id] || {};
-      this.container[id].cookies = cookies;
-      this.container[id].token = `${ cookies.u } ${ cookies.p }`;
-      this.container[id].server = ['一区', '二区', '三区', '四区', '测试'][cookies.s];
-      this.save();
       this.id = id;
-      GM_setValue('ValkyrieId', id);
     }
   }
 
@@ -318,7 +332,7 @@
     state: new State(),
     score: new Score(),
     skill: new Skill(),
-    account: new Account(),
+    storage: new Storage(),
   });
 
   class EventEmitter {
@@ -494,12 +508,12 @@
 
   (function() {
     if (unsafeWindow.Valkyrie) return
-    unsafeWindow.console.log = () => 0;
+    unsafeWindow.console.log = _=>_;
     unsafeWindow.Valkyrie = Valkyrie;
     unsafeWindow.ValkyrieWorker = new ValkyrieWorker();
     const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler);
-    on('roles', data => Valkyrie.account.updateRoles(data.roles));
-    on('login', data => Valkyrie.account.updateId(data.id));
+    on('roles', data => Valkyrie.storage.updateRoles(data.roles));
+    on('login', data => Valkyrie.storage.updateId(data.id));
     on('state', data => Valkyrie.state.updateState(data.state));
     on('room', data => Valkyrie.room.updateRoom(data));
     on('exits', data => Valkyrie.room.updateExit(data.items));

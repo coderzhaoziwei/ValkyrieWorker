@@ -8,7 +8,7 @@ const metadata = `// ==UserScript==
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
 // @version      ${ version }
 // @author       ${ author }
-// @description  文字游戏《武神传说》脚本程序的基础库
+// @description  文字游戏《武神传说》的浏览器脚本程序的基础库
 // @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('en-DE')}
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues

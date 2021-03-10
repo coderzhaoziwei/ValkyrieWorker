@@ -1,4 +1,22 @@
+export const setValue = function(key, value) {
+  GM_setValue(key, value)
+}
+export const getValue = function(key) {
+  GM_getValue(key)
+}
+
 export const hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+
+export const getCookie = function(name) {
+  const cookies = document.cookie.split(';').reduce((cookies, cookieString) => {
+    const i = cookieString.indexOf('=')
+    const name = cookieString.substr(0, i).trim()
+    const value = cookieString.substr(i + 1)
+    cookies[name] = value
+    return cookies
+  }, {})
+  return cookies[name]
+}
 
 export const getColorSortByName = function(name) {
   const index = [

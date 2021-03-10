@@ -12,7 +12,7 @@ class Role {
     this.p = data.p || 0
   }
   get isSelf() {
-    return this.id === GM_getValue('ValkyrieId')
+    return this.id === unsafeWindow.ID
   }
   get isPlayer() {
     return this.p === 1

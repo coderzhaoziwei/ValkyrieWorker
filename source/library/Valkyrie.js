@@ -3,7 +3,7 @@ import Pack from './Pack'
 import Skill from './Skill'
 import State from './State'
 import Score from './Score'
-import Account from './Account'
+import Storage from './Storage'
 
 const Valkyrie = Vue.reactive({
   room: new Room(),
@@ -11,7 +11,7 @@ const Valkyrie = Vue.reactive({
   state: new State(),
   score: new Score(),
   skill: new Skill(),
-  account: new Account(),
+  storage: new Storage(),
 })
 
 export default Valkyrie
