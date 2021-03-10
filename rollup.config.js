@@ -17,6 +17,8 @@ const metadata = `// ==UserScript==
 // @require      https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/package/element3@0.0.38.global.js
 // @run-at       document-start
 // @grant        unsafeWindow
+// @grant        GM_setValue
+// @grant        GM_getValue
 // ==/UserScript==
 `
 
@@ -31,7 +33,7 @@ export default {
     /* 清理输出代码 */
     cleanup(),
     /* 导入为字符串 */
-    string({ include: '*/ValkyrieWorkerContent.js' }),
+    string({ include: 'source/library/ValkyrieWorkerContent.js' }),
     /* 清理指定目录 */
     clear({ targets: ['bundle'] }),
   ],

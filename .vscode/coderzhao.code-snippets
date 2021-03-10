@@ -16,4 +16,9 @@
 		"prefix": "con",
 		"body": ["console.log($1)", ""],
   },
+  "von": {
+    "scope": "javascript,typescript",
+		"prefix": "von",
+		"body": ["on('type', data => Valkyrie.prop.method(data))"],
+  },
 }
