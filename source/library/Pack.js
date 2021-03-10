@@ -11,7 +11,7 @@ class Pack {
   updatePack(data) {
     if (hasOwn(data, 'money')) this.money = parseInt(data.money) || 0
     if (hasOwn(data, 'max_item_count')) this.limit = parseInt(data.max_item_count) || 0
-    if (hasOwn(data, 'eqs')) data.eqs.forEach((eq, index) => this.equipList[index] = eq)
+    if (hasOwn(data, 'eqs')) data.eqs.forEach((eq, index) => (this.equipList[index] = eq))
     if (hasOwn(data, 'items')) {
       this.packList.splice(0)
       data.items.forEach(item => this.packList.push(new PackItem(item)))

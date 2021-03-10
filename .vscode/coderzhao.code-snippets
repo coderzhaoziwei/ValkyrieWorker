@@ -8,7 +8,7 @@
   "/* 多行注释 */": {
     "scope": "javascript,typescript",
     "prefix": "lll",
-    "body": ["/**", " * ${1:comments}", " */"],
+    "body": ["/** ${1:comments}", "* @param {} ", "*/"],
     "description": "创建多行注释",
   },
   "console.log()": {

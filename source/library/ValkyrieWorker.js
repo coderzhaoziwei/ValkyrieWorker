@@ -25,6 +25,9 @@ class ValkyrieWorker {
     this.worker = new Worker(workerURL)
     this.debugMode = false
 
+    this.Vue = Vue
+    this.Element3 = Element3
+
     const handlers = {
       websocketOnopen: () => this.websocket.onopen(),
       websocketOnclose: () => this.websocket.onclose(),
@@ -115,6 +118,30 @@ class ValkyrieWorker {
     const element = document.createElement(tag)
     Object.keys(options).forEach(name => element.setAttribute(name, options[name]))
     return element
+  }
+
+
+  /* TemperMonkey 的内置方法 */
+  setValue(key, value) {
+    GM_setValue(key, value)
+  }
+  getValue(key) {
+    GM_getValue(key)
+  }
+  addElement(parent, tag, attributes) {
+    GM_addElement(parent, tag, attributes)
+  }
+  addStyle(style) {
+    GM_addStyle(style)
+  }
+  copyToClipboard(data) {
+    GM_setClipboard(data, 'text')
+  }
+  downloadByURL(url, filename) {
+    GM_download(url, filename)
+  }
+  httpRequest(options) {
+    GM_xmlhttpRequest(options)
   }
 }
 

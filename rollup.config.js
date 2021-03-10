@@ -8,17 +8,29 @@ const metadata = `// ==UserScript==
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
 // @version      ${ version }
 // @author       ${ author }
-// @description  《武神传说》脚本程序的前置库
-// @match        http://*.wsmud.com/*
+// @description  文字游戏《武神传说》脚本程序的基础库
 // @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('en-DE')}
 // @license      MIT
+// @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
-// @run-at       document-start
 // @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
 // @require      https://cdn.jsdelivr.net/npm/element3@0.0.39/dist/element3-ui.global.min.js
+// @match        http://*.wsmud.com/*
+// @exclude      http://*.wsmud.com/news*
+// @exclude      http://*.wsmud.com/pay*
+// @run-at       document-start
 // @grant        unsafeWindow
+// @grant        GM_log
+// @grant        GM_addStyle
+// @grant        GM_addElement
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        GM_deleteValue
+// @grant        GM_listValues
+// @grant        GM_setClipboard
+// @grant        GM_notification
+// @grant        GM_xmlhttpRequest
+// @grant        GM_registerMenuCommand
 // ==/UserScript==
 `
 

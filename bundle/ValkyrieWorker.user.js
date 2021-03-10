@@ -1,19 +1,31 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.67
+// @version      1.0.74
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
-// @description  《武神传说》脚本程序的前置库
-// @match        http://*.wsmud.com/*
-// @modified     2021/3/10 18:35:40
+// @description  文字游戏《武神传说》脚本程序的基础库
+// @modified     2021/3/10 22:50:15
 // @license      MIT
+// @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
-// @run-at       document-start
 // @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
 // @require      https://cdn.jsdelivr.net/npm/element3@0.0.39/dist/element3-ui.global.min.js
+// @match        http://*.wsmud.com/*
+// @exclude      http://*.wsmud.com/news*
+// @exclude      http://*.wsmud.com/pay*
+// @run-at       document-start
 // @grant        unsafeWindow
+// @grant        GM_log
+// @grant        GM_addStyle
+// @grant        GM_addElement
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        GM_deleteValue
+// @grant        GM_listValues
+// @grant        GM_setClipboard
+// @grant        GM_notification
+// @grant        GM_xmlhttpRequest
+// @grant        GM_registerMenuCommand
 // ==/UserScript==
 
 (function () {
@@ -148,7 +160,7 @@
     updatePack(data) {
       if (hasOwn(data, 'money')) this.money = parseInt(data.money) || 0;
       if (hasOwn(data, 'max_item_count')) this.limit = parseInt(data.max_item_count) || 0;
-      if (hasOwn(data, 'eqs')) data.eqs.forEach((eq, index) => this.equipList[index] = eq);
+      if (hasOwn(data, 'eqs')) data.eqs.forEach((eq, index) => (this.equipList[index] = eq));
       if (hasOwn(data, 'items')) {
         this.packList.splice(0);
         data.items.forEach(item => this.packList.push(new PackItem(item)));
@@ -256,7 +268,7 @@
     }
     updateScore(data) {
       if (data.id === GM_getValue('ValkyrieId')) {
-        Object.keys(data).forEach(key => this[key] = data[key]);
+        Object.keys(data).forEach(key => (this[key] = data[key]));
       }
     }
   }
@@ -367,6 +379,8 @@
       this.eventEmitter = new EventEmitter();
       this.worker = new Worker(workerURL);
       this.debugMode = false;
+      this.Vue = Vue;
+      this.Element3 = Element3;
       const handlers = {
         websocketOnopen: () => this.websocket.onopen(),
         websocketOnclose: () => this.websocket.onclose(),
@@ -455,13 +469,32 @@
       Object.keys(options).forEach(name => element.setAttribute(name, options[name]));
       return element
     }
+    setValue(key, value) {
+      GM_setValue(key, value);
+    }
+    getValue(key) {
+      GM_getValue(key);
+    }
+    addElement(parent, tag, attributes) {
+      GM_addElement(parent, tag, attributes);
+    }
+    addStyle(style) {
+      GM_addStyle(style);
+    }
+    copyToClipboard(data) {
+      GM_setClipboard(data, 'text');
+    }
+    downloadByURL(url, filename) {
+      GM_download(url, filename);
+    }
+    httpRequest(options) {
+      GM_xmlhttpRequest(options);
+    }
   }
 
   (function() {
     if (unsafeWindow.Valkyrie) return
-    unsafeWindow.Vue = Vue;
-    unsafeWindow.console.log = _=>0;
-    unsafeWindow.Element3 = Element3;
+    unsafeWindow.console.log = () => 0;
     unsafeWindow.Valkyrie = Valkyrie;
     unsafeWindow.ValkyrieWorker = new ValkyrieWorker();
     const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler);

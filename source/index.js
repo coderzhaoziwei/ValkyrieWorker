@@ -3,9 +3,8 @@ import ValkyrieWorker from './library/ValkyrieWorker'
 
 (function() {
   if (unsafeWindow.Valkyrie) return
-  unsafeWindow.Vue = Vue
-  unsafeWindow.console.log = _=>0
-  unsafeWindow.Element3 = Element3
+
+  unsafeWindow.console.log = _=>_
   unsafeWindow.Valkyrie = Valkyrie
   unsafeWindow.ValkyrieWorker = new ValkyrieWorker()
 
