@@ -69,18 +69,18 @@ class ValkyrieWorker {
     this.onData({ type: 'text', text })
   }
   sendCommand(command) {
-    if (this.debugMode === true) console.info(JSON.parse(JSON.stringify(command)))
     this.worker.postMessage({ type: 'sendCommand', args: [command] })
+    this.onData({ type: 'sendCommand', command })
   }
   sendCommands(...args) {
-    if (this.debugMode === true) console.info(JSON.parse(JSON.stringify(args)))
     this.worker.postMessage({ type: 'sendCommands', args })
+    this.onData({ type: 'sendCommands', args })
   }
   on(type, handler) {
-    this.eventEmitter.on(type, handler)
+    return this.eventEmitter.on(type, handler)
   }
   once(type, handler) {
-    this.eventEmitter.once(type, handler)
+    return this.eventEmitter.once(type, handler)
   }
   off(id) {
     this.eventEmitter.off(id)
