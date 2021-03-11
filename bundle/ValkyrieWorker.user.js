@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.81
+// @version      1.0.90
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/11 00:44:46
+// @modified     2021/3/11 13:38:51
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -35,9 +35,34 @@
     GM_setValue(key, value);
   };
   const getValue = function(key) {
-    GM_getValue(key);
+    return GM_getValue(key)
   };
-  const hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+  const addStyle = function(style) {
+    GM_addStyle(style);
+  };
+  const createElement = function(tagName, attributes) {
+    const element = document.createElement(tagName);
+    Object.keys(attributes).forEach(key => element.setAttribute(key, attributes[key]));
+    return element
+  };
+  const addStyleByURL = function(url) {
+    const link = createElement('link', { href: url, rel: 'stylesheet' });
+    document.head.appendChild(link);
+  };
+  const appendElement = function(parentNode, tagName, attributes) {
+    const element = createElement(tagName, attributes);
+    parentNode.appendChild(element);
+  };
+  const insertElement = function(parentNode, nextNode, tagName, attributes) {
+    const element = createElement(tagName, attributes);
+    parentNode.insertBefore(element, nextNode);
+  };
+  const removeElement = function(parentNode, childNode) {
+    parentNode.removeChild(childNode);
+  };
+  const hasOwn = function(obj, prop) {
+    return Object.prototype.hasOwnProperty.call(obj, prop)
+  };
   const getCookie = function(name) {
     const cookies = document.cookie.split(';').reduce((cookies, cookieString) => {
       const i = cookieString.indexOf('=');
@@ -61,6 +86,21 @@
     if (index === -1 && /^<...>/i.test(name)) console.error(name);
     return index + 1
   };
+
+  var Common = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    setValue: setValue,
+    getValue: getValue,
+    addStyle: addStyle,
+    createElement: createElement,
+    addStyleByURL: addStyleByURL,
+    appendElement: appendElement,
+    insertElement: insertElement,
+    removeElement: removeElement,
+    hasOwn: hasOwn,
+    getCookie: getCookie,
+    getColorSortByName: getColorSortByName
+  });
 
   class Role {
     constructor(data) {
@@ -313,7 +353,6 @@
       const index = roles.findIndex(role => role.id === id);
       if (index === -1) roles.push({ id, name });
       setValue('ids', roles);
-      console.log(roles);
     }
     get id() {
       return unsafeWindow.ID
@@ -393,8 +432,6 @@
       this.eventEmitter = new EventEmitter();
       this.worker = new Worker(workerURL);
       this.debugMode = false;
-      this.Vue = Vue;
-      this.Element3 = Element3;
       const handlers = {
         websocketOnopen: () => this.websocket.onopen(),
         websocketOnclose: () => this.websocket.onclose(),
@@ -489,12 +526,6 @@
     getValue(key) {
       GM_getValue(key);
     }
-    addElement(parent, tag, attributes) {
-      GM_addElement(parent, tag, attributes);
-    }
-    addStyle(style) {
-      GM_addStyle(style);
-    }
     copyToClipboard(data) {
       GM_setClipboard(data, 'text');
     }
@@ -509,6 +540,9 @@
   (function() {
     if (unsafeWindow.Valkyrie) return
     unsafeWindow.console.log = _=>_;
+    unsafeWindow.Vue = Vue;
+    unsafeWindow.Common = Common;
+    unsafeWindow.Element3 = Element3;
     unsafeWindow.Valkyrie = Valkyrie;
     unsafeWindow.ValkyrieWorker = new ValkyrieWorker();
     const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler);

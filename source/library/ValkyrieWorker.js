@@ -25,9 +25,6 @@ class ValkyrieWorker {
     this.worker = new Worker(workerURL)
     this.debugMode = false
 
-    this.Vue = Vue
-    this.Element3 = Element3
-
     const handlers = {
       websocketOnopen: () => this.websocket.onopen(),
       websocketOnclose: () => this.websocket.onclose(),
@@ -127,12 +124,6 @@ class ValkyrieWorker {
   }
   getValue(key) {
     GM_getValue(key)
-  }
-  addElement(parent, tag, attributes) {
-    GM_addElement(parent, tag, attributes)
-  }
-  addStyle(style) {
-    GM_addStyle(style)
   }
   copyToClipboard(data) {
     GM_setClipboard(data, 'text')

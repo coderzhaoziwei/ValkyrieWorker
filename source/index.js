@@ -1,3 +1,4 @@
+import * as Common  from './library/Common'
 import Valkyrie from './library/Valkyrie'
 import ValkyrieWorker from './library/ValkyrieWorker'
 
@@ -5,6 +6,10 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   if (unsafeWindow.Valkyrie) return
 
   unsafeWindow.console.log = _=>_
+
+  unsafeWindow.Vue = Vue
+  unsafeWindow.Common = Common
+  unsafeWindow.Element3 = Element3
   unsafeWindow.Valkyrie = Valkyrie
   unsafeWindow.ValkyrieWorker = new ValkyrieWorker()
 
