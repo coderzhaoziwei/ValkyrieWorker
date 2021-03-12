@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.100
+// @version      1.0.101
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/12 12:00:48
+// @modified     2021/3/12 12:10:56
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -369,7 +369,7 @@
     constructor(data) {
       this.id = data.uid || '';
       this.channel = data.ch;
-      this.content = data.content.replace(/\n/g, '<br>');
+      this.content = data.content.trim().replace(/\n/g, '<br>');
       this.name = data.name || '';
       this.time = new Date();
       this.level = data.lv || 0;

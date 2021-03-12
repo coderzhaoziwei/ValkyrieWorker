@@ -2,7 +2,7 @@ class ChannelItem {
   constructor(data) {
     this.id = data.uid || ''
     this.channel = data.ch
-    this.content = data.content.replace(/\n/g, '<br>')
+    this.content = data.content.trim().replace(/\n/g, '<br>')
     this.name = data.name || ''
     this.time = new Date()
 
