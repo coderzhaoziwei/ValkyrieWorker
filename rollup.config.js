@@ -15,6 +15,7 @@ const metadata = `// ==UserScript==
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
 // @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
 // @require      https://cdn.jsdelivr.net/npm/element3@0.0.39/dist/element3-ui.global.min.js
+// @require      https://cdn.jsdelivr.net/npm/gsap@3.6.0/dist/gsap.min.js
 // @match        http://*.wsmud.com/*
 // @exclude      http://*.wsmud.com/news*
 // @exclude      http://*.wsmud.com/pay*

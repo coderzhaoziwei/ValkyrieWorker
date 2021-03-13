@@ -1,15 +1,16 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.101
+// @version      1.0.103
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/12 12:10:56
+// @modified     2021/3/14 01:29:47
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
 // @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
 // @require      https://cdn.jsdelivr.net/npm/element3@0.0.39/dist/element3-ui.global.min.js
+// @require      https://cdn.jsdelivr.net/npm/gsap@3.6.0/dist/gsap.min.js
 // @match        http://*.wsmud.com/*
 // @exclude      http://*.wsmud.com/news*
 // @exclude      http://*.wsmud.com/pay*
@@ -596,6 +597,7 @@
     if (unsafeWindow.Valkyrie) return
     unsafeWindow.console.log = _=>_;
     unsafeWindow.Vue = Vue;
+    unsafeWindow.gsap = gsap;
     unsafeWindow.Common = Common;
     unsafeWindow.Element3 = Element3;
     unsafeWindow.Valkyrie = Valkyrie;

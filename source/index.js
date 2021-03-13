@@ -8,6 +8,7 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   unsafeWindow.console.log = _=>_
 
   unsafeWindow.Vue = Vue
+  unsafeWindow.gsap = gsap
   unsafeWindow.Common = Common
   unsafeWindow.Element3 = Element3
   unsafeWindow.Valkyrie = Valkyrie
