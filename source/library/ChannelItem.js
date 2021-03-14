@@ -12,12 +12,12 @@ class ChannelItem {
   }
   get isSelf() { return this.id === unsafeWindow.ID}
 
-  get isTm() { return this.channel === 'tm'    }
-  get isEs() { return this.channel === 'es'    }
-  get isFa() { return this.channel === 'fam'   }
-  get isSy() { return this.channel === 'sys'   }
-  get isPt() { return this.channel === 'pty'   }
-  get isCh() { return this.channel === 'chat'  }
+  get isTm() { return this.channel === 'tm' }
+  get isEs() { return this.channel === 'es' }
+  get isFa() { return this.channel === 'fam' }
+  get isSy() { return this.channel === 'sys' }
+  get isPt() { return this.channel === 'pty' }
+  get isCh() { return this.channel === 'chat' }
   get isRu() { return this.channel === 'rumor' }
 
   get cmd() { return `look3 ${this.id}` }

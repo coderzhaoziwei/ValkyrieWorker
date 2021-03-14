@@ -11,7 +11,12 @@ export const addStyle = function(style) {
 
 export const createElement = function(tagName, attributes) {
   const element = document.createElement(tagName)
-  Object.keys(attributes).forEach(key => element.setAttribute(key, attributes[key]))
+  Object.keys(attributes).forEach(key => {
+    if (key === 'textContent')
+      element.innerText = attributes[key]
+    else
+      element.setAttribute(key, attributes[key])
+  })
   return element
 }
 
