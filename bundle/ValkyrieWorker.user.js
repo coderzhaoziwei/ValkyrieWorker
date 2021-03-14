@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.103
+// @version      1.0.104
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/14 01:29:47
+// @modified     2021/3/14 13:49:59
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -28,6 +28,9 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
 // ==/UserScript==
+
+/* eslint-env es6 */
+/* global Vue:readonly Element3:readonly gsap:readonly */
 
 (function () {
   'use strict';

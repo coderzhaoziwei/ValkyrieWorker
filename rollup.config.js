@@ -33,6 +33,9 @@ const metadata = `// ==UserScript==
 // @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
 // ==/UserScript==
+
+/* eslint-env es6 */
+/* global Vue:readonly Element3:readonly gsap:readonly */
 `
 
 export default {
