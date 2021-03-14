@@ -5,14 +5,14 @@ import ValkyrieWorker from './library/ValkyrieWorker'
 (function() {
   if (unsafeWindow.Valkyrie) return
 
-  unsafeWindow.console.log = _=>_
-
   unsafeWindow.Vue = Vue
-  unsafeWindow.gsap = gsap
-  unsafeWindow.Common = Common
   unsafeWindow.Element3 = Element3
   unsafeWindow.Valkyrie = Valkyrie
   unsafeWindow.ValkyrieWorker = new ValkyrieWorker()
+
+  unsafeWindow.gsap = gsap
+  unsafeWindow.common = Common
+  unsafeWindow.console.log = _=>_
 
   const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler)
 

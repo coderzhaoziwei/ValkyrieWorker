@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.0.104
+// @version      1.1.1
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/14 13:49:59
+// @modified     2021/3/14 13:58:35
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -598,13 +598,13 @@
 
   (function() {
     if (unsafeWindow.Valkyrie) return
-    unsafeWindow.console.log = _=>_;
     unsafeWindow.Vue = Vue;
-    unsafeWindow.gsap = gsap;
-    unsafeWindow.Common = Common;
     unsafeWindow.Element3 = Element3;
     unsafeWindow.Valkyrie = Valkyrie;
     unsafeWindow.ValkyrieWorker = new ValkyrieWorker();
+    unsafeWindow.gsap = gsap;
+    unsafeWindow.common = Common;
+    unsafeWindow.console.log = _=>_;
     const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler);
     on('roles', data => Valkyrie.storage.updateRoles(data.roles));
     on('login', data => Valkyrie.storage.updateId(data.id));
