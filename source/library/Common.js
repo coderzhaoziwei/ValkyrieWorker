@@ -5,9 +5,6 @@ export const getValue = function(key) {
   return GM_getValue(key)
 }
 
-export const addStyle = function(style) {
-  GM_addStyle(style)
-}
 
 export const createElement = function(tagName, attributes) {
   const element = document.createElement(tagName)
@@ -18,11 +15,6 @@ export const createElement = function(tagName, attributes) {
       element.setAttribute(key, attributes[key])
   })
   return element
-}
-
-export const addStyleByURL = function(url) {
-  const link = createElement('link', { href: url, rel: 'stylesheet' })
-  document.head.appendChild(link)
 }
 export const appendElement = function(parentNode, tagName, attributes) {
   const element = createElement(tagName, attributes)
@@ -35,6 +27,17 @@ export const insertElement = function(parentNode, nextNode, tagName, attributes)
 export const removeElement = function(parentNode, childNode) {
   parentNode.removeChild(childNode)
 }
+export const setAttribute = function(selector, attributes) {
+  const element = document.querySelector(selector)
+  Object.keys(attributes).forEach(key => {
+    if (key === 'textContent')
+      element.innerText = attributes[key]
+    else
+      element.setAttribute(key, attributes[key])
+  })
+}
+
+
 
 export const hasOwn = function(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop)
