@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.3
+// @version      1.1.10
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/14 14:27:11
+// @modified     2021/3/15 14:03:44
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -41,14 +41,24 @@
   const getValue = function(key) {
     return GM_getValue(key)
   };
+  const setElementAttributes = function(element, attributes) {
+    Object.keys(attributes).forEach(key => {
+      if (key === 'innerHTML') {
+        element.innerHTML = attributes[key];
+      } else if (key === 'innerText') {
+        element.innerText = attributes[key];
+      } else {
+        element.setAttribute(key, attributes[key]);
+      }
+    });
+  };
+  const setAttribute = function(selector, attributes) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(element => setElementAttributes(element, attributes));
+  };
   const createElement = function(tagName, attributes) {
     const element = document.createElement(tagName);
-    Object.keys(attributes).forEach(key => {
-      if (key === 'textContent')
-        element.innerText = attributes[key];
-      else
-        element.setAttribute(key, attributes[key]);
-    });
+    setElementAttributes(element, attributes);
     return element
   };
   const appendElement = function(parentNode, tagName, attributes) {
@@ -61,15 +71,6 @@
   };
   const removeElement = function(parentNode, childNode) {
     parentNode.removeChild(childNode);
-  };
-  const setAttribute = function(selector, attributes) {
-    const element = document.querySelector(selector);
-    Object.keys(attributes).forEach(key => {
-      if (key === 'textContent')
-        element.innerText = attributes[key];
-      else
-        element.setAttribute(key, attributes[key]);
-    });
   };
   const hasOwn = function(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop)
@@ -102,11 +103,11 @@
     __proto__: null,
     setValue: setValue,
     getValue: getValue,
+    setAttribute: setAttribute,
     createElement: createElement,
     appendElement: appendElement,
     insertElement: insertElement,
     removeElement: removeElement,
-    setAttribute: setAttribute,
     hasOwn: hasOwn,
     getCookie: getCookie,
     getColorSortByName: getColorSortByName
@@ -154,6 +155,15 @@
       this.list = [];
       this.exit = {};
       this.dirs = {};
+    }
+    get nameList() {
+      return this.name.split(/-|\(|\)/)
+    }
+    get x() {
+      return this.nameList[0]
+    }
+    get y() {
+      return this.nameList[1]
     }
     updateRoom(data) {
       const { name, path, desc, commands } = data;

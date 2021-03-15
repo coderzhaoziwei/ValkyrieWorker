@@ -6,14 +6,24 @@ export const getValue = function(key) {
 }
 
 
+const setElementAttributes = function(element, attributes) {
+  Object.keys(attributes).forEach(key => {
+    if (key === 'innerHTML') {
+      element.innerHTML = attributes[key]
+    } else if (key === 'innerText') {
+      element.innerText = attributes[key]
+    } else {
+      element.setAttribute(key, attributes[key])
+    }
+  })
+}
+export const setAttribute = function(selector, attributes) {
+  const elements = document.querySelectorAll(selector)
+  elements.forEach(element => setElementAttributes(element, attributes))
+}
 export const createElement = function(tagName, attributes) {
   const element = document.createElement(tagName)
-  Object.keys(attributes).forEach(key => {
-    if (key === 'textContent')
-      element.innerText = attributes[key]
-    else
-      element.setAttribute(key, attributes[key])
-  })
+  setElementAttributes(element, attributes)
   return element
 }
 export const appendElement = function(parentNode, tagName, attributes) {
@@ -27,16 +37,6 @@ export const insertElement = function(parentNode, nextNode, tagName, attributes)
 export const removeElement = function(parentNode, childNode) {
   parentNode.removeChild(childNode)
 }
-export const setAttribute = function(selector, attributes) {
-  const element = document.querySelector(selector)
-  Object.keys(attributes).forEach(key => {
-    if (key === 'textContent')
-      element.innerText = attributes[key]
-    else
-      element.setAttribute(key, attributes[key])
-  })
-}
-
 
 
 export const hasOwn = function(obj, prop) {

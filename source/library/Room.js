@@ -10,6 +10,17 @@ class Room {
     this.exit = {}
     this.dirs = {}
   }
+  get nameList() {
+    return this.name.split(/-|\(|\)/)
+  }
+  get x() {
+    return this.nameList[0]
+  }
+  get y() {
+    return this.nameList[1]
+  }
+
+
   updateRoom(data) {
     const { name, path, desc, commands } = data
     this.name = name

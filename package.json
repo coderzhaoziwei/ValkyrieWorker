@@ -1,13 +1,15 @@
 {
   "name": "ValkyrieWorker",
-  "version": "1.1.3",
+  "version": "1.1.10",
   "repository": "https://github.com/coderzhaoziwei/ValkyrieWorker.git",
   "author": "Coder Zhao <coderzhaoziwei@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "yarn:install": "yarn",
-    "yarn:version": "yarn version --no-git-tag-version --patch",
-    "build": "yarn version --no-git-tag-version --patch && yarn rollup --config"
+    "build": "yarn run:version && yarn run:rollup && yarn run:copy",
+    "run:copy": "pbcopy < bundle/ValkyrieWorker.user.js && echo '\n\u001b[32m文件内容已复制到剪贴板！\n'",
+    "run:rollup": "yarn rollup --config",
+    "run:version": "yarn version --no-git-tag-version --patch",
+    "run:install": "yarn"
   },
   "devDependencies": {
     "rollup": "^2.40.0",
