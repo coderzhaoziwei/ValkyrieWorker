@@ -27,6 +27,7 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   on('sc', data => Valkyrie.room.updateSc(data))
   on('skills', data => Valkyrie.skill.updateSkills(data))
   on('score', data => Valkyrie.score.updateScore(data))
+  on('login', data => Valkyrie.score.updateScore({id:data.id}))
   on('pack', data => Valkyrie.pack.updatePack(data))
   on('msg', data => Valkyrie.channel.updateMessage(data))
   on('map', data => Valkyrie.map.updateMap(data.map))

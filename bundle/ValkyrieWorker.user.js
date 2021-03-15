@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.14
+// @version      1.1.15
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/15 20:03:34
+// @modified     2021/3/15 23:23:42
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -715,6 +715,7 @@
     on('sc', data => Valkyrie.room.updateSc(data));
     on('skills', data => Valkyrie.skill.updateSkills(data));
     on('score', data => Valkyrie.score.updateScore(data));
+    on('login', data => Valkyrie.score.updateScore({id:data.id}));
     on('pack', data => Valkyrie.pack.updatePack(data));
     on('msg', data => Valkyrie.channel.updateMessage(data));
     on('map', data => Valkyrie.map.updateMap(data.map));
