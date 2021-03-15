@@ -29,5 +29,6 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   on('score', data => Valkyrie.score.updateScore(data))
   on('pack', data => Valkyrie.pack.updatePack(data))
   on('msg', data => Valkyrie.channel.updateMessage(data))
+  on('map', data => Valkyrie.map.updateMap(data.map))
 
 })()
