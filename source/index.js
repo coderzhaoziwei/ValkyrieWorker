@@ -26,8 +26,13 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   on('itemremove', data => Valkyrie.room.updateItemremove(data.id))
   on('sc', data => Valkyrie.room.updateSc(data))
   on('skills', data => Valkyrie.skill.updateSkills(data))
+  // score
+  on('login', data => Valkyrie.score.updateScore({ id: data.id }))
   on('score', data => Valkyrie.score.updateScore(data))
-  on('login', data => Valkyrie.score.updateScore({id:data.id}))
+  on('sc', data => Valkyrie.score.updateScore(data))
+  on('itemadd', data => Valkyrie.score.updateScore(data))
+
+
   on('pack', data => Valkyrie.pack.updatePack(data))
   on('msg', data => Valkyrie.channel.updateMessage(data))
   on('map', data => Valkyrie.map.updateMap(data.map))

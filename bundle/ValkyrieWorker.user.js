@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.15
+// @version      1.1.19
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/15 23:23:42
+// @modified     2021/3/16 17:00:26
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -116,6 +116,8 @@
   class Map {
     constructor() {
       this.svg = '';
+      this.width = 0;
+      this.height = 0;
     }
     updateMap(items) {
       const position = { minX: 99999, minY: 99999, maxX: 0, maxY: 0 };
@@ -190,7 +192,9 @@
       });
       const width = (position.maxX + offsetX + 1) * unitX;
       const height = (position.maxY + offsetY + 1) * unitY;
-      this.svg = `<svg width="${width}" height="${height}">${rects.join('')}${lines.join('')}${texts.join('')}</svg>`;
+      this.width = width;
+      this.height = height;
+      this.svg = `<svg viewBox="0,0,${width},${height}" preserveAspectRatio="xMidYMid meet">${rects.join('')}${lines.join('')}${texts.join('')}</svg>`;
     }
   }
 
@@ -714,8 +718,10 @@
     on('itemremove', data => Valkyrie.room.updateItemremove(data.id));
     on('sc', data => Valkyrie.room.updateSc(data));
     on('skills', data => Valkyrie.skill.updateSkills(data));
+    on('login', data => Valkyrie.score.updateScore({ id: data.id }));
     on('score', data => Valkyrie.score.updateScore(data));
-    on('login', data => Valkyrie.score.updateScore({id:data.id}));
+    on('sc', data => Valkyrie.score.updateScore(data));
+    on('itemadd', data => Valkyrie.score.updateScore(data));
     on('pack', data => Valkyrie.pack.updatePack(data));
     on('msg', data => Valkyrie.channel.updateMessage(data));
     on('map', data => Valkyrie.map.updateMap(data.map));

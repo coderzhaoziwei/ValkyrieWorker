@@ -1,6 +1,8 @@
 class Map {
   constructor() {
     this.svg = ''
+    this.width = 0
+    this.height = 0
   }
   updateMap(items) {
     const position = { minX: 99999, minY: 99999, maxX: 0, maxY: 0 }
@@ -78,7 +80,11 @@ class Map {
 
     const width = (position.maxX + offsetX + 1) * unitX
     const height = (position.maxY + offsetY + 1) * unitY
-    this.svg = `<svg width="${width}" height="${height}">${rects.join('')}${lines.join('')}${texts.join('')}</svg>`
+    // viewBox="0,0,${width},${height}"
+    //  width="${width}" height="${height}"
+    this.width = width
+    this.height = height
+    this.svg = `<svg viewBox="0,0,${width},${height}" preserveAspectRatio="xMidYMid meet">${rects.join('')}${lines.join('')}${texts.join('')}</svg>`
   }
 }
 
