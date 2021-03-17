@@ -29,7 +29,7 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   on('pack', data => Valkyrie.pack.updatePack(data))
   on('msg', data => Valkyrie.channel.updateMessage(data))
   on('map', data => Valkyrie.map.updateMap(data.map))
-  on('task', data => Valkyrie.task.updateTask(data.items))
+  on('tasks', data => Valkyrie.task.updateTask(data.items))
 
   // 属性
   on('score', data => Valkyrie.score.updateScore(data))
@@ -38,7 +38,8 @@ import ValkyrieWorker from './library/ValkyrieWorker'
     if (data.id) Valkyrie.score.id = data.id
   })
   on('text', data => {
-    if (/^<hig>你获得了(\d+)点经验，(\d+)点潜能。<\/hig>$/.test(data.text)) {
+    // <hig>你获得了5360点经验，200000点潜能，<wht>二十六两白银</wht><yel>八十个铜板</yel>。</hig>
+    if (/你获得了(\d+)点经验，(\d+)点潜能/.test(data.text)) {
       Valkyrie.score.exp += Number(RegExp.$1) || 0
       Valkyrie.score.pot += Number(RegExp.$2) || 0
     }

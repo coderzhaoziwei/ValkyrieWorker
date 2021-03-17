@@ -20,6 +20,10 @@ class Task {
     this.activity = {}
   }
   updateTask(items) {
+    this.smTarget = ''
+    this.ymTarget = ''
+    this.ymTargetX = ''
+    this.ymTargetY = ''
     this.activity = {}
     items.forEach(task => {
       const { id, state, title, desc } = task
@@ -47,8 +51,9 @@ class Task {
           this.smCount = Number(RegExp.$1) || 0
           this.smTotal = Number(RegExp.$2) || 0
           // 你的师门委托你去寻找<wht>当归</wht>，你可以慢慢寻找，没有时间限制，目前完成0/20个，共连续完成16个。
-          desc.match(/你的师门委托你去寻找(\S+)，你可以慢慢寻找/)
-          this.smTarget = RegExp.$1
+          if (/你的师门委托你去寻找(\S+)，你可以慢慢寻找/.test(desc)) {
+            this.smTarget = RegExp.$1
+          }
           break
         case 'yamen':
           // 扬州知府委托你追杀逃犯：目前完成0/20个，共连续完成34个。
@@ -56,10 +61,11 @@ class Task {
           this.ymCount = Number(RegExp.$1) || 0
           this.ymTotal = Number(RegExp.$2) || 0
           // 扬州知府委托你追杀逃犯：司空荔蓓，据说最近在峨眉派-走廊出现过，你还有9分57秒去寻找他，目前完成0/20个，共连续完成34个。
-          desc.match(/扬州知府委托你追杀逃犯：(\S+)，据说最近在(\S+)-(\S+)出现过/)
-          this.ymTarget = RegExp.$1
-          this.ymTargetX = RegExp.$2
-          this.ymTargetY = RegExp.$3
+          if (/扬州知府委托你追杀逃犯：(\S+)，据说最近在(\S+)-(\S+)出现过/.test(desc)) {
+            this.ymTarget = RegExp.$1
+            this.ymTargetX = RegExp.$2
+            this.ymTargetY = RegExp.$3
+          }
           break
         case 'yunbiao':
           // 你目前没有接受到委托，本周完成0/20个，共连续完成0个。
