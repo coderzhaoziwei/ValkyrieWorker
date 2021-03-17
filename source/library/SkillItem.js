@@ -5,15 +5,14 @@ class SkillItem {
     this.id = data.id
     this.name = data.name
     this.level = Number(data.level) || 0
-    this._exp = Number(data.exp) || 0
-    this.can_enables = data.can_enables || []
+    this.can_enables = data.can_enables || undefined
     this.enable_skill = data.enable_skill || ''
+    this.exp = 0
+    this.updateExp(data.exp)
   }
-  set exp(value) {
-    this._exp = value
-  }
-  get exp() {
-    return this._exp <= 10 ? 10 : parseInt(this._exp/5)*5
+  updateExp(value) {
+    value = Number(value) || 0
+    this.exp = (value <= 10) ? 10 : parseInt(value / 5) * 5
   }
 
   get nameText() {
@@ -39,7 +38,7 @@ class SkillItem {
         'whip',
         'throwing',
         'literate',
-      ].findIndex(item => item = this.id) + 1
+      ].findIndex(item => item === this.id) + 1
     }
     return (100000 - this.level) + (10 - this.color) / 2
   }

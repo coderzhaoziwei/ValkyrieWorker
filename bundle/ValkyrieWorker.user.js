@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.23
+// @version      1.1.30
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/17 16:47:29
+// @modified     2021/3/17 22:50:58
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -352,6 +352,10 @@
       this.activity = {};
     }
     updateTask(items) {
+      this.smTarget = '';
+      this.ymTarget = '';
+      this.ymTargetX = '';
+      this.ymTargetY = '';
       this.activity = {};
       items.forEach(task => {
         const { id, state, title, desc } = task;
@@ -371,17 +375,19 @@
             desc.match(/目前完成(\d+)\/20个，共连续完成(\d+)个/);
             this.smCount = Number(RegExp.$1) || 0;
             this.smTotal = Number(RegExp.$2) || 0;
-            desc.match(/你的师门委托你去寻找(\S+)，你可以慢慢寻找/);
-            this.smTarget = RegExp.$1;
+            if (/你的师门委托你去寻找(\S+)，你可以慢慢寻找/.test(desc)) {
+              this.smTarget = RegExp.$1;
+            }
             break
           case 'yamen':
             desc.match(/目前完成(\d+)\/20个，共连续完成(\d+)个/);
             this.ymCount = Number(RegExp.$1) || 0;
             this.ymTotal = Number(RegExp.$2) || 0;
-            desc.match(/扬州知府委托你追杀逃犯：(\S+)，据说最近在(\S+)-(\S+)出现过/);
-            this.ymTarget = RegExp.$1;
-            this.ymTargetX = RegExp.$2;
-            this.ymTargetY = RegExp.$3;
+            if (/扬州知府委托你追杀逃犯：(\S+)，据说最近在(\S+)-(\S+)出现过/.test(desc)) {
+              this.ymTarget = RegExp.$1;
+              this.ymTargetX = RegExp.$2;
+              this.ymTargetY = RegExp.$3;
+            }
             break
           case 'yunbiao':
             desc.match(/本周完成(\d+)\/20个，共连续完成(\d+)个/);
@@ -402,15 +408,14 @@
       this.id = data.id;
       this.name = data.name;
       this.level = Number(data.level) || 0;
-      this._exp = Number(data.exp) || 0;
-      this.can_enables = data.can_enables || [];
+      this.can_enables = data.can_enables || undefined;
       this.enable_skill = data.enable_skill || '';
+      this.exp = 0;
+      this.updateExp(data.exp);
     }
-    set exp(value) {
-      this._exp = value;
-    }
-    get exp() {
-      return this._exp <= 10 ? 10 : parseInt(this._exp/5)*5
+    updateExp(value) {
+      value = Number(value) || 0;
+      this.exp = (value <= 10) ? 10 : parseInt(value / 5) * 5;
     }
     get nameText() {
       return this.name.replace(/<.+?>/g, '')
@@ -435,7 +440,7 @@
           'whip',
           'throwing',
           'literate',
-        ].findIndex(item => this.id) + 1
+        ].findIndex(item => item === this.id) + 1
       }
       return (100000 - this.level) + (10 - this.color) / 2
     }
@@ -456,14 +461,14 @@
       if (hasOwn(data, 'items')) {
         this.list.splice(0);
         data.items.forEach(item => this.list.push(new SkillItem(item)));
-        this.list.sort((a, b) => b.sort - a.sort);
+        this.list.sort((a, b) => a.sort - b.sort);
       }
       if (hasOwn(data, 'limit')) this.limit = parseInt(data.limit) || 0;
       if (hasOwn(data, 'item')) this.list.push(new SkillItem(data.item));
       if (hasOwn(data, 'id')) {
         const index = this.list.findIndex(skill => skill.id === data.id);
         if (index !== -1 && hasOwn(data, 'level')) this.list[index].level = parseInt(data.level) || 0;
-        if (index !== -1 && hasOwn(data, 'exp')) this.list[index].exp = parseInt(data.exp) || 0;
+        if (index !== -1 && hasOwn(data, 'exp')) this.list[index].updateExp(data.exp);
       }
       if (hasOwn(data, 'pot')) this.qn = parseInt(data.pot) || 0;
     }
@@ -783,14 +788,14 @@
     on('pack', data => Valkyrie.pack.updatePack(data));
     on('msg', data => Valkyrie.channel.updateMessage(data));
     on('map', data => Valkyrie.map.updateMap(data.map));
-    on('task', data => Valkyrie.task.updateTask(data.items));
+    on('tasks', data => Valkyrie.task.updateTask(data.items));
     on('score', data => Valkyrie.score.updateScore(data));
     on('sc', data => Valkyrie.score.updateScore(data));
     on('login', data => {
       if (data.id) Valkyrie.score.id = data.id;
     });
     on('text', data => {
-      if (/^<hig>你获得了(\d+)点经验，(\d+)点潜能。<\/hig>$/.test(data.text)) {
+      if (/你获得了(\d+)点经验，(\d+)点潜能/.test(data.text)) {
         Valkyrie.score.exp += Number(RegExp.$1) || 0;
         Valkyrie.score.pot += Number(RegExp.$2) || 0;
       }
