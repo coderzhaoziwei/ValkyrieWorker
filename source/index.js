@@ -26,15 +26,22 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   on('itemremove', data => Valkyrie.room.updateItemremove(data.id))
   on('sc', data => Valkyrie.room.updateSc(data))
   on('skills', data => Valkyrie.skill.updateSkills(data))
-  // score
-  on('login', data => Valkyrie.score.updateScore({ id: data.id }))
-  on('score', data => Valkyrie.score.updateScore(data))
-  on('sc', data => Valkyrie.score.updateScore(data))
-  on('itemadd', data => Valkyrie.score.updateScore(data))
-
-
   on('pack', data => Valkyrie.pack.updatePack(data))
   on('msg', data => Valkyrie.channel.updateMessage(data))
   on('map', data => Valkyrie.map.updateMap(data.map))
+  on('task', data => Valkyrie.task.updateTask(data.items))
+
+  // 属性
+  on('score', data => Valkyrie.score.updateScore(data))
+  on('sc', data => Valkyrie.score.updateScore(data))
+  on('login', data => {
+    if (data.id) Valkyrie.score.id = data.id
+  })
+  on('text', data => {
+    if (/^<hig>你获得了(\d+)点经验，(\d+)点潜能。<\/hig>$/.test(data.text)) {
+      Valkyrie.score.exp += Number(RegExp.$1) || 0
+      Valkyrie.score.pot += Number(RegExp.$2) || 0
+    }
+  })
 
 })()

@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.19
+// @version      1.1.23
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/16 17:00:26
+// @modified     2021/3/17 16:47:29
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -330,14 +330,90 @@
     }
   }
 
+  class Task {
+    constructor() {
+      this.smCount = 20;
+      this.smTotal = 99;
+      this.smTarget = '';
+      this.ymCount = 20;
+      this.ymTotal = 99;
+      this.ymTarget = '';
+      this.ymTargetX = '';
+      this.ymTargetY = '';
+      this.ybCount = 20;
+      this.ybTotal = 99;
+      this.fbCount = 20;
+      this.wdCount = 99;
+      this.wdTotal = 99;
+      this.wdValue = true;
+      this.qaValue = true;
+      this.xyValue = true;
+      this.mpValue = true;
+      this.activity = {};
+    }
+    updateTask(items) {
+      this.activity = {};
+      items.forEach(task => {
+        const { id, state, title, desc } = task;
+        switch (id) {
+          case 'signin':
+            desc.match(/副本：<[\S]{3}>(\d+)\/20<[\S]{4}>/);
+            this.fbCount = Number(RegExp.$1) || 0;
+            desc.match(/武道塔([\S]{1,2})重置，进度(\d+)\/(\d+)/);
+            this.wdValue = (RegExp.$1 === '已');
+            this.wdCount = Number(RegExp.$2) || 0;
+            this.wdTotal = Number(RegExp.$3) || 0;
+            this.qaValue = (/还没有给首席请安/.test(desc) === false);
+            this.xyValue = (/本周尚未协助襄阳守城/.test(desc) === false);
+            this.mpValue = (/尚未挑战门派BOSS/.test(desc) === false);
+            break
+          case 'sm':
+            desc.match(/目前完成(\d+)\/20个，共连续完成(\d+)个/);
+            this.smCount = Number(RegExp.$1) || 0;
+            this.smTotal = Number(RegExp.$2) || 0;
+            desc.match(/你的师门委托你去寻找(\S+)，你可以慢慢寻找/);
+            this.smTarget = RegExp.$1;
+            break
+          case 'yamen':
+            desc.match(/目前完成(\d+)\/20个，共连续完成(\d+)个/);
+            this.ymCount = Number(RegExp.$1) || 0;
+            this.ymTotal = Number(RegExp.$2) || 0;
+            desc.match(/扬州知府委托你追杀逃犯：(\S+)，据说最近在(\S+)-(\S+)出现过/);
+            this.ymTarget = RegExp.$1;
+            this.ymTargetX = RegExp.$2;
+            this.ymTargetY = RegExp.$3;
+            break
+          case 'yunbiao':
+            desc.match(/本周完成(\d+)\/20个，共连续完成(\d+)个/);
+            this.ybCount = Number(RegExp.$1) || 0;
+            this.ybTotal = Number(RegExp.$2) || 0;
+            break
+          default:
+            this.activity = { id, state, title, desc };
+            if (state === 2)
+            break
+        }
+      });
+    }
+  }
+
   class SkillItem {
     constructor(data) {
       this.id = data.id;
       this.name = data.name;
       this.level = Number(data.level) || 0;
-      this.exp = Number(data.exp) || 0;
+      this._exp = Number(data.exp) || 0;
       this.can_enables = data.can_enables || [];
       this.enable_skill = data.enable_skill || '';
+    }
+    set exp(value) {
+      this._exp = value;
+    }
+    get exp() {
+      return this._exp <= 10 ? 10 : parseInt(this._exp/5)*5
+    }
+    get nameText() {
+      return this.name.replace(/<.+?>/g, '')
     }
     get color() {
       return getColorSortByName(this.name)
@@ -533,6 +609,7 @@
     skill: new Skill(),
     storage: new Storage(),
     channel: new Channel(),
+    task: new Task(),
   });
 
   class EventEmitter {
@@ -681,21 +758,6 @@
       Object.keys(options).forEach(name => element.setAttribute(name, options[name]));
       return element
     }
-    setValue(key, value) {
-      GM_setValue(key, value);
-    }
-    getValue(key) {
-      GM_getValue(key);
-    }
-    copyToClipboard(data) {
-      GM_setClipboard(data, 'text');
-    }
-    downloadByURL(url, filename) {
-      GM_download(url, filename);
-    }
-    httpRequest(options) {
-      GM_xmlhttpRequest(options);
-    }
   }
 
   (function() {
@@ -718,13 +780,21 @@
     on('itemremove', data => Valkyrie.room.updateItemremove(data.id));
     on('sc', data => Valkyrie.room.updateSc(data));
     on('skills', data => Valkyrie.skill.updateSkills(data));
-    on('login', data => Valkyrie.score.updateScore({ id: data.id }));
-    on('score', data => Valkyrie.score.updateScore(data));
-    on('sc', data => Valkyrie.score.updateScore(data));
-    on('itemadd', data => Valkyrie.score.updateScore(data));
     on('pack', data => Valkyrie.pack.updatePack(data));
     on('msg', data => Valkyrie.channel.updateMessage(data));
     on('map', data => Valkyrie.map.updateMap(data.map));
+    on('task', data => Valkyrie.task.updateTask(data.items));
+    on('score', data => Valkyrie.score.updateScore(data));
+    on('sc', data => Valkyrie.score.updateScore(data));
+    on('login', data => {
+      if (data.id) Valkyrie.score.id = data.id;
+    });
+    on('text', data => {
+      if (/^<hig>你获得了(\d+)点经验，(\d+)点潜能。<\/hig>$/.test(data.text)) {
+        Valkyrie.score.exp += Number(RegExp.$1) || 0;
+        Valkyrie.score.pot += Number(RegExp.$2) || 0;
+      }
+    });
   })();
 
 }());

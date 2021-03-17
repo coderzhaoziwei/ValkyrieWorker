@@ -5,9 +5,19 @@ class SkillItem {
     this.id = data.id
     this.name = data.name
     this.level = Number(data.level) || 0
-    this.exp = Number(data.exp) || 0
+    this._exp = Number(data.exp) || 0
     this.can_enables = data.can_enables || []
     this.enable_skill = data.enable_skill || ''
+  }
+  set exp(value) {
+    this._exp = value
+  }
+  get exp() {
+    return this._exp <= 10 ? 10 : parseInt(this._exp/5)*5
+  }
+
+  get nameText() {
+    return this.name.replace(/<.+?>/g, '')
   }
   get color() {
     return getColorSortByName(this.name)

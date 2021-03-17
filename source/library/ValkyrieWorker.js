@@ -119,21 +119,21 @@ class ValkyrieWorker {
 
 
   /* TemperMonkey 的内置方法 */
-  setValue(key, value) {
-    GM_setValue(key, value)
-  }
-  getValue(key) {
-    GM_getValue(key)
-  }
-  copyToClipboard(data) {
-    GM_setClipboard(data, 'text')
-  }
-  downloadByURL(url, filename) {
-    GM_download(url, filename)
-  }
-  httpRequest(options) {
-    GM_xmlhttpRequest(options)
-  }
+  // setValue(key, value) {
+  //   GM_setValue(key, value)
+  // }
+  // getValue(key) {
+  //   GM_getValue(key)
+  // }
+  // copyToClipboard(data) {
+  //   GM_setClipboard(data, 'text')
+  // }
+  // downloadByURL(url, filename) {
+  //   GM_download(url, filename)
+  // }
+  // httpRequest(options) {
+  //   GM_xmlhttpRequest(options)
+  // }
 }
 
 export default ValkyrieWorker

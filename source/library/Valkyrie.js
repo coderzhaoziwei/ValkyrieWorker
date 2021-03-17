@@ -1,6 +1,7 @@
 import Map from './Map'
 import Room from './Room'
 import Pack from './Pack'
+import Task from './Task'
 import Skill from './Skill'
 import State from './State'
 import Score from './Score'
@@ -16,6 +17,7 @@ const Valkyrie = Vue.reactive({
   skill: new Skill(),
   storage: new Storage(),
   channel: new Channel(),
+  task: new Task(),
 })
 
 export default Valkyrie
