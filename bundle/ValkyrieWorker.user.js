@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.30
+// @version      1.1.31
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/17 22:50:58
+// @modified     2021/3/17 22:54:29
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -440,6 +440,7 @@
           'whip',
           'throwing',
           'literate',
+          'lianyao',
         ].findIndex(item => item === this.id) + 1
       }
       return (100000 - this.level) + (10 - this.color) / 2

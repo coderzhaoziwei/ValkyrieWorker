@@ -38,6 +38,7 @@ class SkillItem {
         'whip',
         'throwing',
         'literate',
+        'lianyao',
       ].findIndex(item => item === this.id) + 1
     }
     return (100000 - this.level) + (10 - this.color) / 2
