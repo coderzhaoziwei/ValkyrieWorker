@@ -8,10 +8,10 @@ class PackItem {
     this.count = data.count
     this.unit = data.unit
     this.value = data.value || 0
-    this.can_eq = data.can_eq
-    this.can_use = data.can_use
-    this.can_study = data.can_study
-    this.can_combine = data.can_combine
+    this.can_eq = data.can_eq || 0
+    this.can_use = data.can_use || 0
+    this.can_study = data.can_study || 0
+    this.can_combine = data.can_combine || 0
   }
   get color() {
     return getColorSortByName(this.name)

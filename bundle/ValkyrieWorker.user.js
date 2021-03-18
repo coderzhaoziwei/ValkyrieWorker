@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.34
+// @version      1.1.35
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/18 14:35:47
+// @modified     2021/3/18 14:46:42
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -411,18 +411,30 @@
   class Pack {
     constructor() {
       this.packList = [];
+      this.packLimit = 0;
       this.equipList = Array(11);
-      this.limit = 0;
+      this.storeList = [];
+      this.storeLimit = 0;
       this.money = 0;
     }
     updatePack(data) {
       if (hasOwn(data, 'money')) this.money = parseInt(data.money) || 0;
-      if (hasOwn(data, 'max_item_count')) this.limit = parseInt(data.max_item_count) || 0;
+      if (hasOwn(data, 'max_item_count')) this.packLimit = parseInt(data.max_item_count) || 0;
       if (hasOwn(data, 'eqs')) data.eqs.forEach((eq, index) => (this.equipList[index] = eq));
       if (hasOwn(data, 'items')) {
         this.packList.splice(0);
         data.items.forEach(item => this.packList.push(new PackItem(item)));
         this.packList.sort((a, b) => a.sort - b.sort);
+      }
+    }
+    updateStore(data) {
+      if (hasOwn(data, 'max_store_count')) {
+        this.storeLimit = Number(data.max_store_count) || 0;
+      }
+      if (hasOwn(data, 'stores')) {
+        this.storeList.splice(0);
+        data.stores.forEach(item => this.storeList.push(new PackItem(item)));
+        this.storeList.sort((a, b) => a.sort - b.sort);
       }
     }
   }
@@ -884,6 +896,7 @@
     on('sc', data => Valkyrie.room.updateSc(data));
     on('skills', data => Valkyrie.skill.updateSkills(data));
     on('pack', data => Valkyrie.pack.updatePack(data));
+    on('list', data => Valkyrie.pack.updateStore(data));
     on('msg', data => Valkyrie.channel.updateMessage(data));
     on('map', data => Valkyrie.map.updateMap(data.map));
     on('tasks', data => Valkyrie.task.updateTask(data.items));

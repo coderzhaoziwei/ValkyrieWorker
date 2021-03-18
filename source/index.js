@@ -26,11 +26,15 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   on('itemremove', data => Valkyrie.room.updateItemremove(data.id))
   on('sc', data => Valkyrie.room.updateSc(data))
   on('skills', data => Valkyrie.skill.updateSkills(data))
+  // 物品
   on('pack', data => Valkyrie.pack.updatePack(data))
+  on('list', data => Valkyrie.pack.updateStore(data))
+  // 消息
   on('msg', data => Valkyrie.channel.updateMessage(data))
+  // 地图
   on('map', data => Valkyrie.map.updateMap(data.map))
+  // 任务
   on('tasks', data => Valkyrie.task.updateTask(data.items))
-
   // 属性
   on('score', data => Valkyrie.score.updateScore(data))
   on('sc', data => Valkyrie.score.updateScore(data))
