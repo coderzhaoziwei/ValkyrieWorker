@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.35
+// @version      1.1.36
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/18 14:46:42
+// @modified     2021/3/18 15:21:06
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -298,6 +298,7 @@
     '元晶',
     '帝魄碎片',
     '玄晶',
+    '周年庆徽章',
     '技能重置卡',
     '师门补给包',
     '背包扩充石',
@@ -305,6 +306,7 @@
     '小箱子',
     '玫瑰花',
     '召唤令',
+    '藏宝图',
     '鱼饵',
     '朱果',
     '养精丹',
@@ -317,6 +319,7 @@
     '天师符',
     '叛师符',
     '洗髓丹',
+    '变性丹',
     '喜宴',
     '师门令牌',
     '铁镐',
@@ -391,10 +394,10 @@
       this.count = data.count;
       this.unit = data.unit;
       this.value = data.value || 0;
-      this.can_eq = data.can_eq;
-      this.can_use = data.can_use;
-      this.can_study = data.can_study;
-      this.can_combine = data.can_combine;
+      this.can_eq = data.can_eq || 0;
+      this.can_use = data.can_use || 0;
+      this.can_study = data.can_study || 0;
+      this.can_combine = data.can_combine || 0;
     }
     get color() {
       return getColorSortByName(this.name)
