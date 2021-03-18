@@ -4,7 +4,7 @@ import PackItem from './PackItem'
 class Pack {
   constructor() {
     this.packList = []
-    this.equipList = []
+    this.equipList = Array(11)
     this.limit = 0
     this.money = 0
   }
@@ -15,7 +15,7 @@ class Pack {
     if (hasOwn(data, 'items')) {
       this.packList.splice(0)
       data.items.forEach(item => this.packList.push(new PackItem(item)))
-      this.packList.sort((a, b) => b.sort - a.sort)
+      this.packList.sort((a, b) => a.sort - b.sort)
     }
   }
 }

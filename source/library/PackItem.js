@@ -1,4 +1,5 @@
 import { getColorSortByName } from './Common'
+import PackList from './PackList'
 
 class PackItem {
   constructor(data) {
@@ -7,15 +8,18 @@ class PackItem {
     this.count = data.count
     this.unit = data.unit
     this.value = data.value || 0
-    this.can_eq = data.can_eq || 0
-    this.can_use = data.can_use || 0
-    this.can_study = data.can_study || 0
-    this.can_combine = data.can_combine || 0
+    this.can_eq = data.can_eq
+    this.can_use = data.can_use
+    this.can_study = data.can_study
+    this.can_combine = data.can_combine
   }
   get color() {
     return getColorSortByName(this.name)
   }
-
+  get sort() {
+    const index = PackList.findIndex(name => this.name.includes(name))
+    return this.color + (index === -1 ? 10000 : (index * 10))
+  }
   get isEquip() {
     return this.can_eq === 1
   }
