@@ -1,6 +1,7 @@
 const worker = {
   websocket: undefined,
   commands: [],
+  sendState: false,
 }
 
 const handlers = {
@@ -34,14 +35,20 @@ const handlers = {
     args = args.flat(Infinity)
 
     worker.commands.push(...args)
-    if (worker.commands.length === args.length) sendLoop(0)
+    if (worker.sendState === false) {
+      worker.sendState = true
+      sendLoop(0)
+    }
   },
 }
 
 function sendLoop(ms = 256) {
   const command = worker.commands.splice(0, 1)[0]
   /* 1. undefined */
-  if (command === undefined) return
+  if (command === undefined) {
+    worker.sendState = false
+    return
+  }
   /* 2. number */
   if (isNaN(Number(command)) === false) {
     sendLoop(Number(command))
