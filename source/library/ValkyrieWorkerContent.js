@@ -1,3 +1,5 @@
+// 此文件为 Web Worker 中的代码
+
 const worker = {
   websocket: undefined,
   commands: [],
@@ -43,18 +45,23 @@ const handlers = {
 }
 
 function sendLoop(ms = 256) {
+  // 取首位
   const command = worker.commands.splice(0, 1)[0]
-  /* 1. undefined */
   if (command === undefined) {
     worker.sendState = false
     return
   }
-  /* 2. number */
+  // 毫秒延迟
   if (isNaN(Number(command)) === false) {
     sendLoop(Number(command))
     return
   }
-  /* 3. string */
+  // 自定义指令
+  if (typeof command === 'string' && command.includes('{') && command.includes('}')) {
+    const data = { type: 'custom-command', command }
+    postMessage({ type: 'websocketOnmessage', args: [{ data }] })
+  }
+  // 延迟并发送指令
   if (typeof command === 'string') {
     setTimeout(() => {
       handlers.sendCommand(command)

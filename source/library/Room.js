@@ -20,6 +20,10 @@ class Room {
     return this.nameList[1]
   }
 
+  get npcList() {
+    return this.list.filter(item => item.isNpc)
+  }
+
 
   updateRoom(data) {
     const { name, path, desc, commands } = data

@@ -1,6 +1,6 @@
-import * as Common  from './library/Common'
 import Valkyrie from './library/Valkyrie'
 import ValkyrieWorker from './library/ValkyrieWorker'
+import * as common  from './library/Common'
 
 (function() {
   if (unsafeWindow.Valkyrie) return
@@ -11,7 +11,7 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   unsafeWindow.ValkyrieWorker = new ValkyrieWorker()
 
   unsafeWindow.gsap = gsap
-  unsafeWindow.common = Common
+  unsafeWindow.common = common
   unsafeWindow.console.log = _=>_
 
   const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler)
@@ -29,6 +29,7 @@ import ValkyrieWorker from './library/ValkyrieWorker'
   // 物品
   on('pack', data => Valkyrie.pack.updatePack(data))
   on('list', data => Valkyrie.pack.updateStore(data))
+  on('list', data => Valkyrie.pack.updateShop(data))
   // 消息
   on('msg', data => Valkyrie.channel.updateMessage(data))
   // 地图
@@ -46,6 +47,24 @@ import ValkyrieWorker from './library/ValkyrieWorker'
     if (/你获得了(\d+)点经验，(\d+)点潜能/.test(data.text)) {
       Valkyrie.score.exp += Number(RegExp.$1) || 0
       Valkyrie.score.pot += Number(RegExp.$2) || 0
+    }
+  })
+
+  // 自定义指令
+  on('custom-command', data => {
+    // {npc:xxxxx}
+    if (/{npc:([\s\S]+?)}/i.test(data.command)) {
+      const npc = Valkyrie.room.npcList.find(npc => npc.name.includes(RegExp.$1))
+      data.command = data.command.replace(/{npc:([\s\S]+?)}/i, npc ? npc.id : '[unkonw id]')
+    }
+
+    // 若字符串中仍有自定义指令的内容，则再循环一遍。
+    // 若没有，则直接发送指令。
+    if (typeof data.command === 'string' && data.command.includes('{') && data.command.includes('}')) {
+      const data = { type: 'custom-command', command: data.command }
+      unsafeWindow.ValkyrieWorker.onData(data)
+    } else {
+      unsafeWindow.ValkyrieWorker.sendCommand(data.command)
     }
   })
 

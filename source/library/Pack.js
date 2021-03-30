@@ -9,6 +9,8 @@ class Pack {
     this.storeList = []
     this.storeLimit = 0
     this.money = 0
+    this.shopId = ''
+    this.shopList = []
   }
   updatePack(data) {
     if (hasOwn(data, 'money')) this.money = parseInt(data.money) || 0
@@ -28,6 +30,14 @@ class Pack {
       this.storeList.splice(0)
       data.stores.forEach(item => this.storeList.push(new PackItem(item)))
       this.storeList.sort((a, b) => a.sort - b.sort)
+    }
+  }
+  updateShop(data) {
+    if (hasOwn(data, 'seller') && hasOwn(data, 'selllist')) {
+      this.shopId = data.seller
+
+      this.shopList.splice(0)
+      data.selllist.forEach(item => this.shopList.push(new PackItem(item)))
     }
   }
 }

@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.37
+// @version      1.1.42
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/3/18 15:29:22
+// @modified     2021/3/30 16:26:39
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -34,84 +34,6 @@
 
 (function () {
   'use strict';
-
-  const setValue = function(key, value) {
-    GM_setValue(key, value);
-  };
-  const getValue = function(key) {
-    return GM_getValue(key)
-  };
-  const setElementAttributes = function(element, attributes) {
-    Object.keys(attributes).forEach(key => {
-      if (key === 'innerHTML') {
-        element.innerHTML = attributes[key];
-      } else if (key === 'innerText') {
-        element.innerText = attributes[key];
-      } else {
-        element.setAttribute(key, attributes[key]);
-      }
-    });
-  };
-  const setAttribute = function(selector, attributes) {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach(element => setElementAttributes(element, attributes));
-  };
-  const createElement = function(tagName, attributes) {
-    const element = document.createElement(tagName);
-    setElementAttributes(element, attributes);
-    return element
-  };
-  const appendElement = function(parentNode, tagName, attributes) {
-    const element = createElement(tagName, attributes);
-    parentNode.appendChild(element);
-  };
-  const insertElement = function(parentNode, nextNode, tagName, attributes) {
-    const element = createElement(tagName, attributes);
-    parentNode.insertBefore(element, nextNode);
-  };
-  const removeElement = function(parentNode, childNode) {
-    parentNode.removeChild(childNode);
-  };
-  const hasOwn = function(obj, prop) {
-    return Object.prototype.hasOwnProperty.call(obj, prop)
-  };
-  const getCookie = function(name) {
-    const cookies = document.cookie.split(';').reduce((cookies, cookieString) => {
-      const i = cookieString.indexOf('=');
-      const name = cookieString.substr(0, i).trim();
-      const value = cookieString.substr(i + 1);
-      cookies[name] = value;
-      return cookies
-    }, {});
-    return cookies[name]
-  };
-  const getColorSortByName = function(name) {
-    const index = [
-      /^<(hiw|wht)>/i,
-      /^<hig>/i,
-      /^<hic>/i,
-      /^<hiy>/i,
-      /^<hiz>/i,
-      /^<hio>/i,
-      /^<(hir|ord)>/i,
-    ].findIndex(regexp => regexp.test(name));
-    if (index === -1 && /^<...>/i.test(name)) console.error(name);
-    return index + 1
-  };
-
-  var Common = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    setValue: setValue,
-    getValue: getValue,
-    setAttribute: setAttribute,
-    createElement: createElement,
-    appendElement: appendElement,
-    insertElement: insertElement,
-    removeElement: removeElement,
-    hasOwn: hasOwn,
-    getCookie: getCookie,
-    getColorSortByName: getColorSortByName
-  });
 
   class Map {
     constructor() {
@@ -198,6 +120,84 @@
     }
   }
 
+  const setValue = function(key, value) {
+    GM_setValue(key, value);
+  };
+  const getValue = function(key) {
+    return GM_getValue(key)
+  };
+  const setElementAttributes = function(element, attributes) {
+    Object.keys(attributes).forEach(key => {
+      if (key === 'innerHTML') {
+        element.innerHTML = attributes[key];
+      } else if (key === 'innerText') {
+        element.innerText = attributes[key];
+      } else {
+        element.setAttribute(key, attributes[key]);
+      }
+    });
+  };
+  const setAttribute = function(selector, attributes) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(element => setElementAttributes(element, attributes));
+  };
+  const createElement = function(tagName, attributes) {
+    const element = document.createElement(tagName);
+    setElementAttributes(element, attributes);
+    return element
+  };
+  const appendElement = function(parentNode, tagName, attributes) {
+    const element = createElement(tagName, attributes);
+    parentNode.appendChild(element);
+  };
+  const insertElement = function(parentNode, nextNode, tagName, attributes) {
+    const element = createElement(tagName, attributes);
+    parentNode.insertBefore(element, nextNode);
+  };
+  const removeElement = function(parentNode, childNode) {
+    parentNode.removeChild(childNode);
+  };
+  const hasOwn = function(obj, prop) {
+    return Object.prototype.hasOwnProperty.call(obj, prop)
+  };
+  const getCookie = function(name) {
+    const cookies = document.cookie.split(';').reduce((cookies, cookieString) => {
+      const i = cookieString.indexOf('=');
+      const name = cookieString.substr(0, i).trim();
+      const value = cookieString.substr(i + 1);
+      cookies[name] = value;
+      return cookies
+    }, {});
+    return cookies[name]
+  };
+  const getColorSortByName = function(name) {
+    const index = [
+      /^<(hiw|wht)>/i,
+      /^<hig>/i,
+      /^<hic>/i,
+      /^<hiy>/i,
+      /^<hiz>/i,
+      /^<hio>/i,
+      /^<(hir|ord)>/i,
+    ].findIndex(regexp => regexp.test(name));
+    if (index === -1 && /^<...>/i.test(name)) console.error(name);
+    return index + 1
+  };
+
+  var common = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    setValue: setValue,
+    getValue: getValue,
+    setAttribute: setAttribute,
+    createElement: createElement,
+    appendElement: appendElement,
+    insertElement: insertElement,
+    removeElement: removeElement,
+    hasOwn: hasOwn,
+    getCookie: getCookie,
+    getColorSortByName: getColorSortByName
+  });
+
   class Role {
     constructor(data) {
       this.id = data.id;
@@ -249,6 +249,9 @@
     }
     get y() {
       return this.nameList[1]
+    }
+    get npcList() {
+      return this.list.filter(item => item.isNpc)
     }
     updateRoom(data) {
       const { name, path, desc, commands } = data;
@@ -419,6 +422,8 @@
       this.storeList = [];
       this.storeLimit = 0;
       this.money = 0;
+      this.shopId = '';
+      this.shopList = [];
     }
     updatePack(data) {
       if (hasOwn(data, 'money')) this.money = parseInt(data.money) || 0;
@@ -438,6 +443,13 @@
         this.storeList.splice(0);
         data.stores.forEach(item => this.storeList.push(new PackItem(item)));
         this.storeList.sort((a, b) => a.sort - b.sort);
+      }
+    }
+    updateShop(data) {
+      if (hasOwn(data, 'seller') && hasOwn(data, 'selllist')) {
+        this.shopId = data.seller;
+        this.shopList.splice(0);
+        data.selllist.forEach(item => this.shopList.push(new PackItem(item)));
       }
     }
   }
@@ -765,7 +777,7 @@
     }
   }
 
-  var ValkyrieWorkerContent = "const worker = {\n  websocket: undefined,\n  commands: [],\n  sendState: false,\n}\nconst handlers = {\n  createWebSocket(uri) {\n    worker.websocket = new WebSocket(uri)\n    worker.websocket.onopen = function() {\n      console.log('ValkyrieWorker: WebSocket.onopen')\n      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })\n      postMessage({ type: 'websocketOnopen', args: [] })\n    }\n    worker.websocket.onclose = function() {\n      console.log('ValkyrieWorker: WebSocket.onclose')\n      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })\n      postMessage({ type: 'websocketOnclose', args: [] })\n    }\n    worker.websocket.onerror = function() {\n      console.log('ValkyrieWorker: WebSocket.onerror')\n      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })\n      postMessage({ type: 'websocketOnerror', args: [] })\n    }\n    worker.websocket.onmessage = function(event) {\n      postMessage({ type: 'websocketOnmessage', args: [{ data: event.data }] })\n    }\n  },\n  sendCommand(command) {\n    worker.websocket.send(command)\n  },\n  sendCommands(...args) {\n    args = args.flat(Infinity)\n    args.forEach((item, index) => (/,/.test(item)) && (args[index] = item.split(',')))\n    args = args.flat(Infinity)\n    worker.commands.push(...args)\n    if (worker.sendState === false) {\n      worker.sendState = true\n      sendLoop(0)\n    }\n  },\n}\nfunction sendLoop(ms = 256) {\n  const command = worker.commands.splice(0, 1)[0]\n  if (command === undefined) {\n    worker.sendState = false\n    return\n  }\n  if (isNaN(Number(command)) === false) {\n    sendLoop(Number(command))\n    return\n  }\n  if (typeof command === 'string') {\n    setTimeout(() => {\n      handlers.sendCommand(command)\n      sendLoop()\n    }, ms)\n  }\n}\nonmessage = function(event) {\n  try {\n    const type = event.data.type\n    const args = event.data.args\n    handlers[type](...args)\n  } catch (error) {\n    console.error(error)\n  }\n}\n";
+  var ValkyrieWorkerContent = "const worker = {\n  websocket: undefined,\n  commands: [],\n  sendState: false,\n}\nconst handlers = {\n  createWebSocket(uri) {\n    worker.websocket = new WebSocket(uri)\n    worker.websocket.onopen = function() {\n      console.log('ValkyrieWorker: WebSocket.onopen')\n      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })\n      postMessage({ type: 'websocketOnopen', args: [] })\n    }\n    worker.websocket.onclose = function() {\n      console.log('ValkyrieWorker: WebSocket.onclose')\n      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })\n      postMessage({ type: 'websocketOnclose', args: [] })\n    }\n    worker.websocket.onerror = function() {\n      console.log('ValkyrieWorker: WebSocket.onerror')\n      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })\n      postMessage({ type: 'websocketOnerror', args: [] })\n    }\n    worker.websocket.onmessage = function(event) {\n      postMessage({ type: 'websocketOnmessage', args: [{ data: event.data }] })\n    }\n  },\n  sendCommand(command) {\n    worker.websocket.send(command)\n  },\n  sendCommands(...args) {\n    args = args.flat(Infinity)\n    args.forEach((item, index) => (/,/.test(item)) && (args[index] = item.split(',')))\n    args = args.flat(Infinity)\n    worker.commands.push(...args)\n    if (worker.sendState === false) {\n      worker.sendState = true\n      sendLoop(0)\n    }\n  },\n}\nfunction sendLoop(ms = 256) {\n  const command = worker.commands.splice(0, 1)[0]\n  if (command === undefined) {\n    worker.sendState = false\n    return\n  }\n  if (isNaN(Number(command)) === false) {\n    sendLoop(Number(command))\n    return\n  }\n  if (typeof command === 'string' && command.includes('{') && command.includes('}')) {\n    const data = { type: 'custom-command', command }\n    postMessage({ type: 'websocketOnmessage', args: [{ data }] })\n  }\n  if (typeof command === 'string') {\n    setTimeout(() => {\n      handlers.sendCommand(command)\n      sendLoop()\n    }, ms)\n  }\n}\nonmessage = function(event) {\n  try {\n    const type = event.data.type\n    const args = event.data.args\n    handlers[type](...args)\n  } catch (error) {\n    console.error(error)\n  }\n}\n";
 
   const workerBlob = new Blob([ValkyrieWorkerContent]);
   const workerURL = URL.createObjectURL(workerBlob);
@@ -885,7 +897,7 @@
     unsafeWindow.Valkyrie = Valkyrie;
     unsafeWindow.ValkyrieWorker = new ValkyrieWorker();
     unsafeWindow.gsap = gsap;
-    unsafeWindow.common = Common;
+    unsafeWindow.common = common;
     unsafeWindow.console.log = _=>_;
     const on = (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler);
     on('roles', data => Valkyrie.storage.updateRoles(data.roles));
@@ -900,6 +912,7 @@
     on('skills', data => Valkyrie.skill.updateSkills(data));
     on('pack', data => Valkyrie.pack.updatePack(data));
     on('list', data => Valkyrie.pack.updateStore(data));
+    on('list', data => Valkyrie.pack.updateShop(data));
     on('msg', data => Valkyrie.channel.updateMessage(data));
     on('map', data => Valkyrie.map.updateMap(data.map));
     on('tasks', data => Valkyrie.task.updateTask(data.items));
@@ -912,6 +925,18 @@
       if (/你获得了(\d+)点经验，(\d+)点潜能/.test(data.text)) {
         Valkyrie.score.exp += Number(RegExp.$1) || 0;
         Valkyrie.score.pot += Number(RegExp.$2) || 0;
+      }
+    });
+    on('custom-command', data => {
+      if (/{npc:([\s\S]+?)}/i.test(data.command)) {
+        const npc = Valkyrie.room.npcList.find(npc => npc.name.includes(RegExp.$1));
+        data.command = data.command.replace(/{npc:([\s\S]+?)}/i, npc ? npc.id : '[unkonw id]');
+      }
+      if (typeof data.command === 'string' && data.command.includes('{') && data.command.includes('}')) {
+        const data = { type: 'custom-command', command: data.command };
+        unsafeWindow.ValkyrieWorker.onData(data);
+      } else {
+        unsafeWindow.ValkyrieWorker.sendCommand(data.command);
       }
     });
   })();
