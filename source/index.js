@@ -52,8 +52,11 @@ import * as common  from './library/Common'
 
   // 自定义指令
   on('custom-command', data => {
+    console.log(data.command)
+
     // {npc:xxxxx}
     if (/{npc:([\s\S]+?)}/i.test(data.command)) {
+      console.log(RegExp.$1)
       const npc = Valkyrie.room.npcList.find(npc => npc.name.includes(RegExp.$1))
       data.command = data.command.replace(/{npc:([\s\S]+?)}/i, npc ? npc.id : '[unkonw id]')
     }

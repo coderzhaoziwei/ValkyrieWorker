@@ -58,8 +58,12 @@ function sendLoop(ms = 256) {
   }
   // 自定义指令
   if (typeof command === 'string' && command.includes('{') && command.includes('}')) {
-    const data = { type: 'custom-command', command }
-    postMessage({ type: 'websocketOnmessage', args: [{ data }] })
+    setTimeout(() => {
+      const data = JSON.stringify({ type: 'custom-command', command })
+      postMessage({ type: 'websocketOnmessage', args: [{ data }] })
+      sendLoop()
+    }, ms)
+    return
   }
   // 延迟并发送指令
   if (typeof command === 'string') {
