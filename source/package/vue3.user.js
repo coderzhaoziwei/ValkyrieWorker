@@ -2,6 +2,10 @@
 // @version 3.0.7-4
 // ==/UserScript==
 
+/** 发布于 GreasyFork
+ * https://greasyfork.org/scripts/422999
+ */
+
 var Vue = (function(exports) {
   'use strict';
   /**

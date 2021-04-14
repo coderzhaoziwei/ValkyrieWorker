@@ -1,3 +1,7 @@
+/** 前端源码
+ * game.wsmud.com/dist/ws.js
+ */
+
 (function () {
   "use strict"
   var GameClient;

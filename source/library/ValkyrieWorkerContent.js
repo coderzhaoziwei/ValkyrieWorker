@@ -10,22 +10,22 @@ const handlers = {
   createWebSocket(uri) {
     worker.websocket = new WebSocket(uri)
     worker.websocket.onopen = function() {
-      console.log('ValkyrieWorker: WebSocket.onopen')
-      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })
-      postMessage({ type: 'websocketOnopen', args: [] })
+      console.log(`ValkyrieWorker: WebSocket.onopen`)
+      postMessage({ type: `setReadyState`, args: [worker.websocket.readyState] })
+      postMessage({ type: `websocketOnopen`, args: [] })
     }
     worker.websocket.onclose = function() {
-      console.log('ValkyrieWorker: WebSocket.onclose')
-      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })
-      postMessage({ type: 'websocketOnclose', args: [] })
+      console.log(`ValkyrieWorker: WebSocket.onclose`)
+      postMessage({ type: `setReadyState`, args: [worker.websocket.readyState] })
+      postMessage({ type: `websocketOnclose`, args: [] })
     }
     worker.websocket.onerror = function() {
-      console.log('ValkyrieWorker: WebSocket.onerror')
-      postMessage({ type: 'setReadyState', args: [worker.websocket.readyState] })
-      postMessage({ type: 'websocketOnerror', args: [] })
+      console.log(`ValkyrieWorker: WebSocket.onerror`)
+      postMessage({ type: `setReadyState`, args: [worker.websocket.readyState] })
+      postMessage({ type: `websocketOnerror`, args: [] })
     }
     worker.websocket.onmessage = function(event) {
-      postMessage({ type: 'websocketOnmessage', args: [{ data: event.data }] })
+      postMessage({ type: `websocketOnmessage`, args: [{ data: event.data }] })
     }
   },
   sendCommand(command) {
@@ -33,7 +33,7 @@ const handlers = {
   },
   sendCommands(...args) {
     args = args.flat(Infinity)
-    args.forEach((item, index) => (/,/.test(item)) && (args[index] = item.split(',')))
+    args.forEach((item, index) => (/,/.test(item)) && (args[index] = item.split(`,`)))
     args = args.flat(Infinity)
 
     worker.commands.push(...args)
@@ -57,16 +57,16 @@ function sendLoop(ms = 256) {
     return
   }
   // 自定义指令
-  if (typeof command === 'string' && command.includes('{') && command.includes('}')) {
+  if (typeof command === `string` && command.includes(`{`) && command.includes(`}`)) {
     setTimeout(() => {
-      const data = JSON.stringify({ type: 'custom-command', command })
-      postMessage({ type: 'websocketOnmessage', args: [{ data }] })
+      const data = JSON.stringify({ type: `custom-command`, command })
+      postMessage({ type: `websocketOnmessage`, args: [{ data }] })
       sendLoop()
     }, ms)
     return
   }
   // 延迟并发送指令
-  if (typeof command === 'string') {
+  if (typeof command === `string`) {
     setTimeout(() => {
       handlers.sendCommand(command)
       sendLoop()
