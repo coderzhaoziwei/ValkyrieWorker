@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.50
+// @version      1.1.52
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/4/14 16:11:26
+// @modified     2021/4/14 16:44:00
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -42,24 +42,16 @@
     static getAccounts() {
       return JSON.parse(localStorage.getItem(`_accounts`) || `[]`)
     }
-    static addAccountInfo(account) {
+    static updateAccount(account) {
       const accounts = Util.getAccounts();
       const index = accounts.findIndex(item => item.id === account.id);
       if (index === -1)
-        accounts.push(data);
+        accounts.push(account);
       else
-        accounts[index] = data;
+        accounts[index] = account;
       Util.setAccounts(accounts);
     }
-    static getCurrentAccountInfo(key) {
-      const id = unsafeWindow.id;
-      if (typeof id === 'string') {
-        const account = JSON.parse(localStorage.getItem(id) || `{}`);
-        return (typeof key === 'string') ? account[key] : account
-      }
-      return false
-    }
-    static setCurrentAccountInfo(key, value) {
+    static setValue(key, value) {
       const id = unsafeWindow.id;
       if (typeof id === 'string') {
         const account = JSON.parse(localStorage.getItem(id) || `{}`);
@@ -69,11 +61,13 @@
       }
       return false
     }
-    static setValue(key, value) {
-      return Util.setCurrentAccountInfo(key, value)
-    }
     static getValue(key) {
-      return Util.getCurrentAccountInfo(key)
+      const id = unsafeWindow.id;
+      if (typeof id === 'string') {
+        const account = JSON.parse(localStorage.getItem(id) || `{}`);
+        return (typeof key === 'string') ? (account[key] || {}) : account
+      }
+      return false
     }
     static getCookie(name) {
       const cookies = document.cookie.split(`;`).reduce((cookies, cookieString) => {
@@ -455,7 +449,7 @@
       const server = [`一区`, `二区`, `三区`, `四区`, `测试`][cookies.s];
       if (typeof unsafeWindow.id !== `string`) {
         const account = { id, name, server, cookies, token };
-        Util.addAccountInfo(account);
+        Util.updateAccount(account);
       }
       unsafeWindow.id = id;
       this.role = Util.getValue(`role`);
@@ -589,7 +583,7 @@
     updateStateData(data) {
       const index = STATE_LIST.findIndex(state => data.state && data.state.includes(state));
       this.state.value = index + 1;
-      this.state.text = stateList[index] || data.state || ``;
+      this.state.text = STATE_LIST[index] || data.state || ``;
       this.state.detail = ``;
     }
     updateSkillData(data) {

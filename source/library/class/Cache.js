@@ -1,29 +1,30 @@
 import Util from "./Util"
-
 import Chat from "./Chat"
 import Pack from "./Pack"
 import Role from "./Role"
 import Skill from "./Skill"
-
 import STATE_LIST from "../data/STATE_LIST"
 
 /** 缓存类
- * @param {object} role  - 当前角色信息
- * @param {object} roles - 全部角色信息
- *
- * @param {object} room     - 房间基本信息
- * @param {Array}  exitList - 房间出口列表
- * @param {object} map      - 房间区域地图
- * @param {Array}  roleList - 房间角色列表
- *
- * @param {object}        score      - 属性
- * @param {object}        state      - 状态
- * @param {Array.<Skill>} skillList  - 技能列表
- * @param {number}        skillLimit - 技能上限
- * @param {Array.<Pack>}  packList   - 物品列表
- * @param {Array.<Base>}  equipList  - 装备列表
- * @param {number}        packLimit  - 物品上限
- * @param {number}        money      - 金钱数值
+ * @param {object}        role       - 当前角色信息
+ * @param {object}        roles      - 全部角色信息
+ * @param {object}        room       - 房间基本信息
+ * @param {Array}         exitList   - 房间出口列表
+ * @param {object}        map        - 房间区域地图
+ * @param {Array}         roleList   - 房间角色列表
+ * @param {object}        score      - 当前角色属性
+ * @param {object}        state      - 当前角色状态
+ * @param {Array.<Skill>} skillList  - 角色技能列表
+ * @param {number}        skillLimit - 角色技能上限
+ * @param {Array.<Pack>}  packList   - 角色物品列表
+ * @param {Array.<Base>}  equipList  - 角色装备列表
+ * @param {number}        packLimit  - 背包物品上限
+ * @param {number}        money      - 金钱具体数值
+ * @param {Array.<Pack>}  storeList  - 仓库物品列表
+ * @param {number}        packLimit  - 仓库容量上限
+ * @param {string}        seller     - 商店卖家标识
+ * @param {Array}         sellList   - 商店售卖列表
+ * @param {Array}         chatList   - 聊天内容列表
  */
 export default class Cache {
   constructor() {
@@ -35,10 +36,8 @@ export default class Cache {
     this.exitList = []
     this.map = { svg: ``, width: 0, height: 0 }
     this.roleList = []
-    // 技能
     this.skillList = []
     this.skillLimit = 0
-    // 物品列表
     this.packList = []
     this.equipList = []
     this.packLimit = 0
@@ -47,7 +46,6 @@ export default class Cache {
     this.storeLimit = 0
     this.seller = ``
     this.sellList = []
-    // 聊天
     this.chatList = []
     // 任务
     this.smCount = 20
@@ -89,7 +87,7 @@ export default class Cache {
     // 首次登录记录信息
     if (typeof unsafeWindow.id !== `string`) {
       const account = { id, name, server, cookies, token }
-      Util.addAccountInfo(account)
+      Util.updateAccount(account)
     }
 
     // 添加全局标识
@@ -238,7 +236,7 @@ export default class Cache {
   updateStateData(data) {
     const index = STATE_LIST.findIndex(state => data.state && data.state.includes(state))
     this.state.value = index + 1
-    this.state.text = stateList[index] || data.state || ``
+    this.state.text = STATE_LIST[index] || data.state || ``
     this.state.detail = ``
   }
 

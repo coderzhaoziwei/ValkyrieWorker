@@ -6,27 +6,19 @@ export default class Util {
   static getAccounts() {
     return JSON.parse(localStorage.getItem(`_accounts`) || `[]`)
   }
-  static addAccountInfo(account) {
+  static updateAccount(account) {
     const accounts = Util.getAccounts()
     const index = accounts.findIndex(item => item.id === account.id)
 
     if (index === -1)
-      accounts.push(data)
+      accounts.push(account)
     else
-      accounts[index] = data
+      accounts[index] = account
 
     Util.setAccounts(accounts)
   }
 
-  static getCurrentAccountInfo(key) {
-    const id = unsafeWindow.id
-    if (typeof id === 'string') {
-      const account = JSON.parse(localStorage.getItem(id) || `{}`)
-      return (typeof key === 'string') ? account[key] : account
-    }
-    return false
-  }
-  static setCurrentAccountInfo(key, value) {
+  static setValue(key, value) {
     const id = unsafeWindow.id
     if (typeof id === 'string') {
       const account = JSON.parse(localStorage.getItem(id) || `{}`)
@@ -36,11 +28,13 @@ export default class Util {
     }
     return false
   }
-  static setValue(key, value) {
-    return Util.setCurrentAccountInfo(key, value)
-  }
   static getValue(key) {
-    return Util.getCurrentAccountInfo(key)
+    const id = unsafeWindow.id
+    if (typeof id === 'string') {
+      const account = JSON.parse(localStorage.getItem(id) || `{}`)
+      return (typeof key === 'string') ? (account[key] || {}) : account
+    }
+    return false
   }
 
   static getCookie(name) {
