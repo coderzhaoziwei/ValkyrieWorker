@@ -1,18 +1,16 @@
-class EventEmitter {
+/* 事件类 */
+export default class EventEmitter {
   constructor() {
     this.id = 0
     this.types = {}
     this.handlers = {}
   }
-  on(type, handler, once = false) {
+  on(type, handler) {
     const id = ++ this.id
     if (!this.types[type]) this.types[type] = []
     this.types[type].push(id)
-    this.handlers[id] = { id, type, handler, once }
+    this.handlers[id] = { id, type, handler }
     return id
-  }
-  once(type, handler) {
-    return this.on(type, handler, true)
   }
   off(id) {
     const handler = this.handlers[id]
@@ -27,11 +25,9 @@ class EventEmitter {
     if (ids instanceof Array) {
       ids.forEach(id => {
         const { handler, once } = this.handlers[id]
-        if (typeof handler === 'function') handler(data)
+        if (typeof handler === `function`) handler(data)
         if (once === true) this.off(id)
       })
     }
   }
 }
-
-export default EventEmitter
