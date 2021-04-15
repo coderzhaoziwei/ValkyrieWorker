@@ -9,12 +9,11 @@ export default class Util {
   static updateAccount(account) {
     const accounts = Util.getAccounts()
     const index = accounts.findIndex(item => item.id === account.id)
-
-    if (index === -1)
+    if (index === -1) {
       accounts.push(account)
-    else
+    } else {
       accounts[index] = account
-
+    }
     Util.setAccounts(accounts)
   }
 
@@ -62,5 +61,26 @@ export default class Util {
   }
   static dataToEvent(data) {
     return data.type === `text` ? { data: data.text } : { data: JSON.stringify(data) }
+  }
+
+  static setElementAttribute(element, attribute) {
+    Object.keys(attribute).forEach(key => {
+      if (key === 'innerHTML') {
+        element.innerHTML = attribute[key]
+      } else if (key === 'innerText') {
+        element.innerText = attribute[key]
+      } else {
+        element.setAttribute(key, attribute[key])
+      }
+    })
+  }
+  static setAttribute(selector, attribute) {
+    const elements = document.querySelectorAll(selector)
+    elements.forEach(element => Util.setElementAttribute(element, attribute))
+  }
+  static appendElement(parentNode, tagName, attribute) {
+    const element = document.createElement(tagName)
+    Util.setElementAttribute(element, attribute)
+    parentNode.appendChild(element)
   }
 }

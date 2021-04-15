@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.52
+// @version      1.1.57
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/4/14 16:44:00
+// @modified     2021/4/15 17:01:36
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -30,7 +30,9 @@
 // ==/UserScript==
 
 /* eslint-env es6 */
-/* global Vue:readonly Element3:readonly gsap:readonly */
+/* global Vue:readonly */
+/* global Element3:readonly */
+/* global gsap:readonly */
 
 (function () {
   'use strict';
@@ -45,10 +47,11 @@
     static updateAccount(account) {
       const accounts = Util.getAccounts();
       const index = accounts.findIndex(item => item.id === account.id);
-      if (index === -1)
+      if (index === -1) {
         accounts.push(account);
-      else
+      } else {
         accounts[index] = account;
+      }
       Util.setAccounts(accounts);
     }
     static setValue(key, value) {
@@ -92,6 +95,26 @@
     }
     static dataToEvent(data) {
       return data.type === `text` ? { data: data.text } : { data: JSON.stringify(data) }
+    }
+    static setElementAttribute(element, attribute) {
+      Object.keys(attribute).forEach(key => {
+        if (key === 'innerHTML') {
+          element.innerHTML = attribute[key];
+        } else if (key === 'innerText') {
+          element.innerText = attribute[key];
+        } else {
+          element.setAttribute(key, attribute[key]);
+        }
+      });
+    }
+    static setAttribute(selector, attribute) {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(element => Util.setElementAttribute(element, attribute));
+    }
+    static appendElement(parentNode, tagName, attribute) {
+      const element = document.createElement(tagName);
+      Util.setElementAttribute(element, attribute);
+      parentNode.appendChild(element);
     }
   }
 
@@ -585,12 +608,15 @@
       this.state.value = index + 1;
       this.state.text = STATE_LIST[index] || data.state || ``;
       this.state.detail = ``;
+      data.state = this.state.text;
+      delete data.desc;
     }
     updateSkillData(data) {
       if (Util.hasOwn(data, `items`)) {
         this.skillList.splice(0);
-        data.items.forEach(item => this.list.push(new Skill(item)));
+        data.items.forEach(item => this.skillList.push(new Skill(item)));
         this.skillList.sort((a, b) => a.sort - b.sort);
+        data.items = this.skillList;
       }
       if (Util.hasOwn(data, `limit`)) {
         this.skillLimit = parseInt(data.limit) || 0;
@@ -601,8 +627,29 @@
       if (Util.hasOwn(data, `id`)) {
         const index = this.skillList.findIndex(skill => skill.id === data.id);
         if (index !== -1) {
-          if (Util.hasOwn(data, `level`)) this.skillList[index].level = Number(data.level) || 1;
-          if (Util.hasOwn(data, `exp`)) this.skillList[index].updateExp(data.exp);
+          const skill = this.skillList[index];
+          if (Util.hasOwn(data, `level`)) {
+            skill.level = Number(data.level) || 1;
+            this.onText(`你的技能${ skill.name }提升到了<hiw>${ skill.level }</hiw>级！`);
+          }
+          if (Util.hasOwn(data, `exp`)) {
+            skill.updateExp(data.exp);
+            switch (this.state.text) {
+              case `练习`:
+                this.onText(`你练习${ skill.name }消耗了${ this.lxCost }点潜能。${ data.exp }%`);
+                this.state.detail = skill.nameText;
+                this.score.pot -= this.lxCost;
+                break
+              case `学习`:
+                this.onText(`你学习${ skill.name }消耗了${ this.xxCost }点潜能。${ data.exp }%`);
+                this.state.detail = skill.nameText;
+                this.score.pot -= this.xxCost;
+                break
+              case `炼药`:
+                this.onText(`你获得了炼药经验，${ skill.name }当前<hiw>${ skill.level }</hiw>级。${ data.exp }%`);
+                break
+            }
+          }
         }
       }
       if (Util.hasOwn(data, `pot`)) {
@@ -623,6 +670,7 @@
         this.packList.splice(0);
         data.items.forEach(item => this.packList.push(new Pack(item)));
         this.packList.sort((a, b) => a.sort - b.sort);
+        data.items = this.packList;
       }
     }
     updateStoreData(data) {
@@ -633,6 +681,7 @@
         this.storeList.splice(0);
         data.stores.forEach(item => this.storeList.push(new Pack(item)));
         this.storeList.sort((a, b) => a.sort - b.sort);
+        data.stores = this.storeList;
       }
     }
     updateSellData(data) {
@@ -644,8 +693,9 @@
     }
     updateMsgData(data) {
       this.chatList.push(new Chat(data));
-      if (this.chatList.length > 2000)
-        this.chatList.splice(0, 200);
+      if (this.chatList.length > 1100) {
+        this.chatList.splice(0, 100);
+      }
     }
     updateTaskItems(items) {
       this.smTarget = ``;
@@ -712,6 +762,12 @@
     }
     get npcList() {
       return this.roleList.filter(role => role.isNpc)
+    }
+    get hpPercentage() {
+      return parseInt((this.score.hp / this.score.max_hp) * 100) || 0
+    }
+    get mpPercentage() {
+      return parseInt((this.score.mp / this.score.max_mp) * 100) || 0
     }
   }
 
@@ -842,6 +898,7 @@
     unsafeWindow.ValkyrieCache = cache;
     unsafeWindow.ValkyrieWorker = worker;
     unsafeWindow.Gsap = gsap;
+    unsafeWindow.Util = Util;
     unsafeWindow.console.log = _=>_;
     on(`roles`, data => cache.updateRoleItems(data.roles));
     on(`login`, data => cache.updateLoginId(data.id));
@@ -872,6 +929,15 @@
       if (/你获得了(\d+)点经验，(\d+)点潜能/.test(data.text)) {
         cache.score.exp += Number(RegExp.$1) || 0;
         cache.score.pot += Number(RegExp.$2) || 0;
+      }
+    });
+    on(`text`, data => {
+      if (/^<hiy>你的[\s\S]+等级提升了！<\/hiy>$/.test(data.text)) {
+        return delete data.type
+      }
+      if (/^<hig>你获得了(\d+)点经验，(\d+)点潜能。<\/hig>$/.test(data.text)) {
+        data.text = data.text.replace(/<\S+?>/g, ``);
+        return
       }
     });
   })();

@@ -1,18 +1,22 @@
+import Util from "./library/class/Util"
 import Cache from "./library/class/Cache"
 import ValkyrieWorker from "./library/ValkyrieWorker"
 
 (function() {
   if (unsafeWindow.ValkyrieWorker) return
 
-  const cache = Vue.reactive(new Cache())
   const worker = new ValkyrieWorker()
+  unsafeWindow.ValkyrieWorker = worker
+
+  const cache = Vue.reactive(new Cache())
+  unsafeWindow.ValkyrieCache = cache
+
   const on = (type, handler) => worker.on(type, handler)
 
   unsafeWindow.Vue = Vue
   unsafeWindow.Element3 = Element3
-  unsafeWindow.ValkyrieCache = cache
-  unsafeWindow.ValkyrieWorker = worker
   unsafeWindow.Gsap = gsap
+  unsafeWindow.Util = Util
   unsafeWindow.console.log = _=>_
 
   // 角色列表
@@ -60,7 +64,22 @@ import ValkyrieWorker from "./library/ValkyrieWorker"
     if (/你获得了(\d+)点经验，(\d+)点潜能/.test(data.text)) {
       cache.score.exp += Number(RegExp.$1) || 0
       cache.score.pot += Number(RegExp.$2) || 0
+
     }
   })
+  on(`text`, data => {
+    // 技能等级提升
+    if (/^<hiy>你的[\s\S]+等级提升了！<\/hiy>$/.test(data.text)) {
+      return delete data.type
+    }
+
+    // 获得经验潜能
+    if (/^<hig>你获得了(\d+)点经验，(\d+)点潜能。<\/hig>$/.test(data.text)) {
+      data.text = data.text.replace(/<\S+?>/g, ``)
+      return
+    }
+
+  })
+
 
 })()

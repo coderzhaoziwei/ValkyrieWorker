@@ -238,13 +238,20 @@ export default class Cache {
     this.state.value = index + 1
     this.state.text = STATE_LIST[index] || data.state || ``
     this.state.detail = ``
+
+    // 重置状态文本
+    data.state = this.state.text
+    // 删除状态描述
+    delete data.desc
   }
 
   updateSkillData(data) {
     if (Util.hasOwn(data, `items`)) {
       this.skillList.splice(0)
-      data.items.forEach(item => this.list.push(new Skill(item)))
+      data.items.forEach(item => this.skillList.push(new Skill(item)))
       this.skillList.sort((a, b) => a.sort - b.sort)
+      // 修改技能列表数据
+      data.items = this.skillList
     }
     if (Util.hasOwn(data, `limit`)) {
       this.skillLimit = parseInt(data.limit) || 0
@@ -255,8 +262,36 @@ export default class Cache {
     if (Util.hasOwn(data, `id`)) {
       const index = this.skillList.findIndex(skill => skill.id === data.id)
       if (index !== -1) {
-        if (Util.hasOwn(data, `level`)) this.skillList[index].level = Number(data.level) || 1
-        if (Util.hasOwn(data, `exp`)) this.skillList[index].updateExp(data.exp)
+        const skill = this.skillList[index]
+        const onText = unsafeWindow.ValkyrieWorker.onText
+        if (Util.hasOwn(data, `level`)) {
+          skill.level = Number(data.level) || 1
+          onText(`你的技能${ skill.name }提升到了<hiw>${ skill.level }</hiw>级！`)
+        }
+        if (Util.hasOwn(data, `exp`)) {
+          skill.updateExp(data.exp)
+          switch (this.state.text) {
+            case `练习`:
+              onText(`你练习${ skill.name }消耗了${ this.lxCost }点潜能。${ data.exp }%`)
+              this.state.detail = skill.nameText
+              this.score.pot -= this.lxCost
+              break
+            case `学习`:
+              onText(`你学习${ skill.name }消耗了${ this.xxCost }点潜能。${ data.exp }%`)
+              this.state.detail = skill.nameText
+              this.score.pot -= this.xxCost
+              break
+            case `炼药`:
+              onText(`你获得了炼药经验，${ skill.name }当前<hiw>${ skill.level }</hiw>级。${ data.exp }%`)
+              break
+          }
+        }
+//   /* 潜能消耗＝等级平方差×技能颜色系数 */
+//   // const qnCost = (Math.pow(this.skillLimit, 2) - Math.pow(skill.level, 2)) * skill.k
+//   /* 秒数消耗＝潜能/每一跳的潜能/(每分钟秒数/每分钟五次) */
+//   // const time = qnCost / this.lxCost / ( 60 / 5)
+//   // const timeString = time < 60 ? `${parseInt(time)}分钟` : `${parseInt(time/60)}小时${parseInt(time%60)}分钟`
+//   // 还需要${ timeString }消耗${ qn }点潜能到${ this.skillLimit }级。
       }
     }
     if (Util.hasOwn(data, `pot`)) {
@@ -278,6 +313,8 @@ export default class Cache {
       this.packList.splice(0)
       data.items.forEach(item => this.packList.push(new Pack(item)))
       this.packList.sort((a, b) => a.sort - b.sort)
+      // 修改物品列表数据
+      data.items = this.packList
     }
   }
   updateStoreData(data) {
@@ -288,6 +325,8 @@ export default class Cache {
       this.storeList.splice(0)
       data.stores.forEach(item => this.storeList.push(new Pack(item)))
       this.storeList.sort((a, b) => a.sort - b.sort)
+      // 修改仓库列表数据
+      data.stores = this.storeList
     }
   }
   updateSellData(data) {
@@ -301,8 +340,9 @@ export default class Cache {
   updateMsgData(data) {
     this.chatList.push(new Chat(data))
 
-    if (this.chatList.length > 2000)
-      this.chatList.splice(0, 200)
+    if (this.chatList.length > 1100) {
+      this.chatList.splice(0, 100)
+    }
   }
   updateTaskItems(items) {
     this.smTarget = ``
@@ -408,6 +448,19 @@ export default class Cache {
    */
   get npcList() {
     return this.roleList.filter(role => role.isNpc)
+  }
+
+  /** 气血百分比
+   * @return {number} [0, 100]
+   */
+  get hpPercentage() {
+    return parseInt((this.score.hp / this.score.max_hp) * 100) || 0
+  }
+  /** 内力百分比
+   * @return {number} [0, 100]
+   */
+  get mpPercentage() {
+    return parseInt((this.score.mp / this.score.max_mp) * 100) || 0
   }
 
 }

@@ -35,7 +35,9 @@ const metadata = `// ==UserScript==
 // ==/UserScript==
 
 /* eslint-env es6 */
-/* global Vue:readonly Element3:readonly gsap:readonly */
+/* global Vue:readonly */
+/* global Element3:readonly */
+/* global gsap:readonly */
 `
 
 export default {
