@@ -98,6 +98,7 @@ export default class Cache {
     this.role.id = id
     this.role.name = name
     this.role.title = title
+    this.role.server = server
     Util.setValue(`role`, this.role)
   }
   updateRoomData(data) {
@@ -286,12 +287,12 @@ export default class Cache {
               break
           }
         }
-//   /* 潜能消耗＝等级平方差×技能颜色系数 */
-//   // const qnCost = (Math.pow(this.skillLimit, 2) - Math.pow(skill.level, 2)) * skill.k
-//   /* 秒数消耗＝潜能/每一跳的潜能/(每分钟秒数/每分钟五次) */
-//   // const time = qnCost / this.lxCost / ( 60 / 5)
-//   // const timeString = time < 60 ? `${parseInt(time)}分钟` : `${parseInt(time/60)}小时${parseInt(time%60)}分钟`
-//   // 还需要${ timeString }消耗${ qn }点潜能到${ this.skillLimit }级。
+/* 潜能消耗＝等级平方差×技能颜色系数 */
+// const qnCost = (Math.pow(this.skillLimit, 2) - Math.pow(skill.level, 2)) * skill.k
+/* 秒数消耗＝潜能/每一跳的潜能/(每分钟秒数/每分钟五次) */
+// const time = qnCost / this.lxCost / ( 60 / 5)
+// const timeString = time < 60 ? `${parseInt(time)}分钟` : `${parseInt(time/60)}小时${parseInt(time%60)}分钟`
+// 还需要${ timeString }消耗${ qn }点潜能到${ this.skillLimit }级。
       }
     }
     if (Util.hasOwn(data, `pot`)) {

@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.57
+// @version      1.1.58
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/4/15 17:01:36
+// @modified     2021/4/15 19:56:05
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -479,6 +479,7 @@
       this.role.id = id;
       this.role.name = name;
       this.role.title = title;
+      this.role.server = server;
       Util.setValue(`role`, this.role);
     }
     updateRoomData(data) {
@@ -628,25 +629,26 @@
         const index = this.skillList.findIndex(skill => skill.id === data.id);
         if (index !== -1) {
           const skill = this.skillList[index];
+          const onText = unsafeWindow.ValkyrieWorker.onText;
           if (Util.hasOwn(data, `level`)) {
             skill.level = Number(data.level) || 1;
-            this.onText(`你的技能${ skill.name }提升到了<hiw>${ skill.level }</hiw>级！`);
+            onText(`你的技能${ skill.name }提升到了<hiw>${ skill.level }</hiw>级！`);
           }
           if (Util.hasOwn(data, `exp`)) {
             skill.updateExp(data.exp);
             switch (this.state.text) {
               case `练习`:
-                this.onText(`你练习${ skill.name }消耗了${ this.lxCost }点潜能。${ data.exp }%`);
+                onText(`你练习${ skill.name }消耗了${ this.lxCost }点潜能。${ data.exp }%`);
                 this.state.detail = skill.nameText;
                 this.score.pot -= this.lxCost;
                 break
               case `学习`:
-                this.onText(`你学习${ skill.name }消耗了${ this.xxCost }点潜能。${ data.exp }%`);
+                onText(`你学习${ skill.name }消耗了${ this.xxCost }点潜能。${ data.exp }%`);
                 this.state.detail = skill.nameText;
                 this.score.pot -= this.xxCost;
                 break
               case `炼药`:
-                this.onText(`你获得了炼药经验，${ skill.name }当前<hiw>${ skill.level }</hiw>级。${ data.exp }%`);
+                onText(`你获得了炼药经验，${ skill.name }当前<hiw>${ skill.level }</hiw>级。${ data.exp }%`);
                 break
             }
           }
@@ -890,13 +892,13 @@
 
   (function() {
     if (unsafeWindow.ValkyrieWorker) return
-    const cache = Vue.reactive(new Cache());
     const worker = new ValkyrieWorker();
+    unsafeWindow.ValkyrieWorker = worker;
+    const cache = Vue.reactive(new Cache());
+    unsafeWindow.ValkyrieCache = cache;
     const on = (type, handler) => worker.on(type, handler);
     unsafeWindow.Vue = Vue;
     unsafeWindow.Element3 = Element3;
-    unsafeWindow.ValkyrieCache = cache;
-    unsafeWindow.ValkyrieWorker = worker;
     unsafeWindow.Gsap = gsap;
     unsafeWindow.Util = Util;
     unsafeWindow.console.log = _=>_;
