@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         ValkyrieWorker
 // @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
-// @version      1.1.58
+// @version      1.1.61
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/4/15 19:56:05
+// @modified     2021/4/17 16:22:40
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
@@ -771,6 +771,27 @@
     get mpPercentage() {
       return parseInt((this.score.mp / this.score.max_mp) * 100) || 0
     }
+    get genderValue() {
+      return ['女', '男'].findIndex(item => item === this.score.gender)
+    }
+    get sendCommand() {
+      return command => unsafeWindow.ValkyrieWorker.sendCommand(command)
+    }
+    get sendCommands() {
+      return (...args) => unsafeWindow.ValkyrieWorker.sendCommands(...args)
+    }
+    get onData() {
+      return data => unsafeWindow.ValkyrieWorker.onData(data)
+    }
+    get onText() {
+      return text => unsafeWindow.ValkyrieWorker.onText(text)
+    }
+    get on() {
+      return (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler.bind(this))
+    }
+    get off() {
+      return id => unsafeWindow.ValkyrieWorker.off(id)
+    }
   }
 
   class EventEmitter {
@@ -889,6 +910,24 @@
       this.eventEmitter.off(id);
     }
   }
+
+  Cache.prototype.xiulian = function() {
+    if (/副本区域/.test(this.room.name)) {
+      this.onText(`<hir>【警告】请离开副本区域后再尝试。</hir>`);
+      return Promise.resolve(false)
+    }
+    this.sendCommands(`stopstate,jh fam 0 start,go west,go west,go north,go enter,go west`);
+    return new Promise(resolve => {
+      const id1 = this.on(`room`, () => {
+        if (this.room.path === `home/liangong`) {
+          this.off(id1);
+          this.onText(`<hig>到达住宅练功房，开始修炼。</hig>`);
+          this.sendCommand(`xiulian`);
+          resolve(true);
+        }
+      });
+    })
+  };
 
   (function() {
     if (unsafeWindow.ValkyrieWorker) return

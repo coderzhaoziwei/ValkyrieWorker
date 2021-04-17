@@ -2,6 +2,8 @@ import Util from "./library/class/Util"
 import Cache from "./library/class/Cache"
 import ValkyrieWorker from "./library/ValkyrieWorker"
 
+import "./library/action/xiulian"
+
 (function() {
   if (unsafeWindow.ValkyrieWorker) return
 

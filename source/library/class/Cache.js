@@ -464,4 +464,28 @@ export default class Cache {
     return parseInt((this.score.mp / this.score.max_mp) * 100) || 0
   }
 
+  get genderValue() {
+    return ['女', '男'].findIndex(item => item === this.score.gender)
+  }
+
+  /* 几个全局的 Worker 方法 以下提供 this 调用 */
+  get sendCommand() {
+    return command => unsafeWindow.ValkyrieWorker.sendCommand(command)
+  }
+  get sendCommands() {
+    return (...args) => unsafeWindow.ValkyrieWorker.sendCommands(...args)
+  }
+  get onData() {
+    return data => unsafeWindow.ValkyrieWorker.onData(data)
+  }
+  get onText() {
+    return text => unsafeWindow.ValkyrieWorker.onText(text)
+  }
+  get on() {
+    return (type, handler) => unsafeWindow.ValkyrieWorker.on(type, handler.bind(this))
+  }
+  get off() {
+    return id => unsafeWindow.ValkyrieWorker.off(id)
+  }
+
 }
