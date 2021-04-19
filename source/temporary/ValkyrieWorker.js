@@ -1,4 +1,4 @@
-import Util from "./class/Util"
+import Util from "./Util"
 import EventEmitter from "./class/EventEmitter"
 import ValkyrieWorkerContent from "./ValkyrieWorkerContent.js"
 

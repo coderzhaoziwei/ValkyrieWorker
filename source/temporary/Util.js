@@ -36,20 +36,8 @@ export default class Util {
     return false
   }
 
-  static getCookie(name) {
-    const cookies = document.cookie.split(`;`).reduce((cookies, cookieString) => {
-      const i = cookieString.indexOf(`=`)
-      const name = cookieString.substr(0, i).trim()
-      const value = cookieString.substr(i + 1)
-      cookies[name] = value
-      return cookies
-    }, {})
-    return cookies[name]
-  }
-  static setCookie(name, value) {
-    document.cookie = `${name}=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
-    return true
-  }
+  // static
+  // static
 
   static hasOwn(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop)

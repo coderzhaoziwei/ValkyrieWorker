@@ -1,16 +1,17 @@
-import { name, version, author } from './package.json'
-import { string } from 'rollup-plugin-string'
-import cleanup from 'rollup-plugin-cleanup'
-import clear from 'rollup-plugin-clear'
+import { name, version, author } from "./package.json"
+import { string } from "rollup-plugin-string"
+import cleanup from "rollup-plugin-cleanup"
+import clear from "rollup-plugin-clear"
 
-const metadata = `// ==UserScript==
+const TAMPERMONKEY_METADATA = `// ==UserScript==
 // @name         ${ name }
-// @namespace    https://greasyfork.org/scripts/422783-valkyrieworker
+// @namespace    https://greasyfork.org/scripts/422783
 // @version      ${ version }
 // @author       ${ author }
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('en-DE')}
+// @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString("en-DE")}
 // @license      MIT
+// @homepage     https://greasyfork.org/scripts/422783
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/ValkyrieWorker/source/image/wakuang.png
 // @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
@@ -41,18 +42,18 @@ const metadata = `// ==UserScript==
 `
 
 export default {
-  input: 'source/index.js',
+  input: `source/index.js`,
   output: {
-    file: 'bundle/ValkyrieWorker.user.js',
-    format: 'iife',
-    banner: metadata,
+    file: `bundle/valkyrie.user.js`,
+    format: `iife`,
+    banner: TAMPERMONKEY_METADATA,
   },
   plugins: [
-    /* 清理输出代码 */
+    // 清理 JS 代码
     cleanup(),
-    /* 导入为字符串 */
-    string({ include: 'source/library/ValkyrieWorkerContent.js' }),
-    /* 清理指定目录 */
-    clear({ targets: ['bundle'] }),
+    // 指定文件作为字符串 import
+    string({ include: `source/core/ValkyrieWorker.js` }),
+    // 清理目录文件
+    clear({ targets: [`bundle`] }),
   ],
 }

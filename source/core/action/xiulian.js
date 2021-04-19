@@ -1,10 +1,8 @@
 import Cache from "../class/Cache"
 
-Cache.prototype.xiulian = function() {
-  if (/副本区域/.test(this.room.name)) {
-    this.onText(`<hir>请离开副本区域后再尝试。</hir>`)
-    return Promise.resolve(false)
-  }
+Cache.prototype.xiulian = async function() {
+  const checkarea = await this.checkarea()
+  if (checkarea === false) return Promise.resolve(false)
 
   this.sendCommands(`stopstate,jh fam 0 start,go west,go west,go north,go enter,go west`)
   return new Promise(resolve => {
