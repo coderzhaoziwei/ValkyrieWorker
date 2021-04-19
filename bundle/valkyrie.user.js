@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         ValkyrieWorker
+// @name         Valkyrie
 // @namespace    https://greasyfork.org/scripts/422783
-// @version      1.1.71
+// @version      1.2.2
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
 // @description  文字游戏《武神传说》的浏览器脚本程序的基础库
-// @modified     2021/4/19 15:08:14
+// @modified     2021/4/19 15:37:11
 // @license      MIT
 // @homepage     https://greasyfork.org/scripts/422783
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
