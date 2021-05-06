@@ -23,8 +23,8 @@ export default {
         if (npc) {
           data.command = data.command.replace(/{npc:([\s\S]+?)}/i, npc.id)
         } else {
-          data.command = data.command.replace(/{npc:([\s\S]+?)}/i, key)
-          this.onText(`[ ${key} ]`, `hir`)
+          data.command = data.command.replace(/{npc:([\s\S]+?)}/i, string)
+          this.onText(`没有找到名为[<hiy>${string}</hiy>]的非玩家对象。`, `hir`)
         }
       }
       this.sendCommand(data.command)
