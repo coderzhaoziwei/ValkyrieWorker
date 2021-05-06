@@ -33,7 +33,8 @@ export default {
       this.updateToolBarPosition()
     })
     // 窗口尺寸变动时 触发工具位置变动
-    unsafeWindow.addEventListener(`resize`, function() {
+    // 此处必须使用箭头函数使 this 指向 Vue 实例
+    unsafeWindow.addEventListener(`resize`, () => {
       this.updateToolBarPosition()
     })
   },
