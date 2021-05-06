@@ -113,7 +113,7 @@ function sendCommands(...args) {
   onData({ type: `sendCommands`, args })
 }
 function stopCommands() {
-  ValkyrieWebWorker.postMessage({ type: `stopCommands`, args })
+  ValkyrieWebWorker.postMessage({ type: `stopCommands` })
   onData({ type: `stopCommands` })
 }
 
