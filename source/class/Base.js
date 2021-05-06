@@ -9,15 +9,15 @@ class Base {
   }
   get colorValue() {
     // 颜色 [1-7]
-    const index = [        // 0: 无法判断
-      /^<(hiw|wht)>/i,     // 1: 白
-      /^<hig>/i,           // 2: 绿
-      /^<hic>/i,           // 3: 蓝
-      /^<hiy>/i,           // 4: 黄
-      /^<hiz>/i,           // 5: 紫
-      /^<hio>/i,           // 6: 橙
+    const index = [ // 0: 无法判断
+      /^<(hiw|wht)>/i, // 1: 白
+      /^<hig>/i, // 2: 绿
+      /^<hic>/i, // 3: 蓝
+      /^<hiy>/i, // 4: 黄
+      /^<hiz>/i, // 5: 紫
+      /^<hio>/i, // 6: 橙
       /^<(hir|ord|red)>/i, // 7: 红
-      /^<\S\S\S>/,         // 8: 未知
+      /^<\S\S\S>/, // 8: 未知
     ].findIndex(regexp => regexp.test(this.name)) + 1
 
     // 打印未知标签
