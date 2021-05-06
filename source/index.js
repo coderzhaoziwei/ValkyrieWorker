@@ -1,3 +1,5 @@
+import ValkyrieStyle from "../bundle/style.min.css"
+
 import ValkyrieWorker from "./mixin/ValkyrieWorker"
 import ValkyrieAwait from "./mixin/ValkyrieAwait"
 import ValkyrieOptions from "./mixin/ValkyrieOptions"
@@ -50,6 +52,8 @@ app.mixin(OnCustomCommand) // 自定义指令模块
 
 // DOM 加载完毕
 document.addEventListener(`DOMContentLoaded`, function() {
+  // CSS
+  document.head.insertAdjacentHTML(`beforeend`, `<style>${ValkyrieStyle}</style>`)
 
   document.body.insertAdjacentHTML(`beforeend`, `<div id="app"></div>`)
 

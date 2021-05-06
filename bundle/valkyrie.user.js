@@ -2,10 +2,10 @@
 // @name         Valkyrie
 // @namespace    https://greasyfork.org/scripts/422783
 // @homepage     https://greasyfork.org/scripts/422783
-// @version      1.2.176
+// @version      1.2.192
 // @description  文字游戏《武神传说》的浏览器脚本程序
 // @author       Coder Zhao <coderzhaoziwei@outlook.com>
-// @modified     2021/5/5 22:36:08
+// @modified     2021/5/6 10:59:35
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/Valkyrie/source/image/wakuang.png
@@ -37,6 +37,8 @@
 
 (function () {
   'use strict';
+
+  var ValkyrieStyle = "html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}[hidden],template{display:none}";
 
   class Emitter {
     constructor() {
@@ -183,7 +185,7 @@
     onData({ type: `sendCommands`, args });
   }
   function stopCommands() {
-    ValkyrieWebWorker.postMessage({ type: `stopCommands`, args });
+    ValkyrieWebWorker.postMessage({ type: `stopCommands` });
     onData({ type: `stopCommands` });
   }
   var ValkyrieWorker = {
@@ -381,7 +383,8 @@
         this.updateToolBarPosition();
       });
       // 窗口尺寸变动时 触发工具位置变动
-      unsafeWindow.addEventListener(`resize`, function() {
+      // 此处必须使用箭头函数使 this 指向 Vue 实例
+      unsafeWindow.addEventListener(`resize`, () => {
         this.updateToolBarPosition();
       });
     },
@@ -604,15 +607,15 @@
     }
     get colorValue() {
       // 颜色 [1-7]
-      const index = [        // 0: 无法判断
-        /^<(hiw|wht)>/i,     // 1: 白
-        /^<hig>/i,           // 2: 绿
-        /^<hic>/i,           // 3: 蓝
-        /^<hiy>/i,           // 4: 黄
-        /^<hiz>/i,           // 5: 紫
-        /^<hio>/i,           // 6: 橙
+      const index = [ // 0: 无法判断
+        /^<(hiw|wht)>/i, // 1: 白
+        /^<hig>/i, // 2: 绿
+        /^<hic>/i, // 3: 蓝
+        /^<hiy>/i, // 4: 黄
+        /^<hiz>/i, // 5: 紫
+        /^<hio>/i, // 6: 橙
         /^<(hir|ord|red)>/i, // 7: 红
-        /^<\S\S\S>/,         // 8: 未知
+        /^<\S\S\S>/, // 8: 未知
       ].findIndex(regexp => regexp.test(this.name)) + 1;
       // 打印未知标签
       if (index === 8) {
@@ -703,10 +706,10 @@
       this.on(`sc`, function(data) {
         const role = this.roleList.find(x => x.id === data.id);
         if (role === undefined) return
-        if (this.hasOwn(data, `hp`)) this.roleList[index].hp = data.hp;
-        if (this.hasOwn(data, `mp`)) this.roleList[index].mp = data.mp;
-        if (this.hasOwn(data, `max_hp`)) this.roleList[index].max_hp = data.max_hp;
-        if (this.hasOwn(data, `max_mp`)) this.roleList[index].max_mp = data.max_mp;
+        if (this.hasOwn(data, `hp`)) role.hp = Number(data.hp);
+        if (this.hasOwn(data, `mp`)) role.mp = Number(data.mp);
+        if (this.hasOwn(data, `max_hp`)) role.max_hp = Number(data.max_hp);
+        if (this.hasOwn(data, `max_mp`)) role.max_mp = Number(data.max_mp);
       });
     },
   };
@@ -832,7 +835,7 @@
           const today = Number(RegExp.$3) || 0;
           return { value, limit, today }
         }
-        return { value, limit, today }
+        return { value: 0, limit: 0, today: 0 }
       },
       energyValue() {
         return this.energy.value
@@ -1424,8 +1427,8 @@
           if (npc) {
             data.command = data.command.replace(/{npc:([\s\S]+?)}/i, npc.id);
           } else {
-            data.command = data.command.replace(/{npc:([\s\S]+?)}/i, key);
-            this.onText(`[ ${key} ]`, `hir`);
+            data.command = data.command.replace(/{npc:([\s\S]+?)}/i, string);
+            this.onText(`没有找到名为[<hiy>${string}</hiy>]的非玩家对象。`, `hir`);
           }
         }
         this.sendCommand(data.command);
@@ -1462,6 +1465,8 @@
   app.mixin(OnCustomCommand); // 自定义指令模块
   // DOM 加载完毕
   document.addEventListener(`DOMContentLoaded`, function() {
+    // CSS
+    document.head.insertAdjacentHTML(`beforeend`, `<style>${ValkyrieStyle}</style>`);
     document.body.insertAdjacentHTML(`beforeend`, `<div id="app"></div>`);
     // 挂载 Valkyrie
     unsafeWindow.Valkyrie = app.mount(`#app`);
