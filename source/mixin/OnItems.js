@@ -48,10 +48,10 @@ export default {
       const role = this.roleList.find(x => x.id === data.id)
       if (role === undefined) return
 
-      if (this.hasOwn(data, `hp`)) this.roleList[index].hp = data.hp
-      if (this.hasOwn(data, `mp`)) this.roleList[index].mp = data.mp
-      if (this.hasOwn(data, `max_hp`)) this.roleList[index].max_hp = data.max_hp
-      if (this.hasOwn(data, `max_mp`)) this.roleList[index].max_mp = data.max_mp
+      if (this.hasOwn(data, `hp`)) role.hp = Number(data.hp)
+      if (this.hasOwn(data, `mp`)) role.mp = Number(data.mp)
+      if (this.hasOwn(data, `max_hp`)) role.max_hp = Number(data.max_hp)
+      if (this.hasOwn(data, `max_mp`)) role.max_mp = Number(data.max_mp)
 
     })
   },
