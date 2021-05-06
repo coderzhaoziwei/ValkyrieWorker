@@ -69,7 +69,7 @@ export default {
         const today = Number(RegExp.$3) || 0
         return { value, limit, today }
       }
-      return { value, limit, today }
+      return { value: 0, limit: 0, today: 0 }
     },
     energyValue() {
       return this.energy.value
