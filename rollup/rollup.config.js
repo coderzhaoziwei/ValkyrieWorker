@@ -1,10 +1,8 @@
-import { name, version, author } from "./package.json"
+import { name, version, author } from "../package.json"
 import { string } from "rollup-plugin-string"
 import cleanup from "rollup-plugin-cleanup"
-// import clear from "rollup-plugin-clear"
+import clear from "rollup-plugin-clear"
 import json from "@rollup/plugin-json"
-import postcss from "rollup-plugin-postcss"
-import cssnano from "cssnano"
 
 const tamperMonkeyMetaData = `// ==UserScript==
 // @name         ${ name }
@@ -53,27 +51,18 @@ export default {
   },
   plugins: [
     cleanup({
-      comments: `all`,
+      comments: `all`, // 保留全部的注释
     }), // 格式化代码
-    postcss({
-      extract: true,
-      plugins: [
-        cssnano(), // CSS 压缩等功能
-      ],
-      exclude: [
-        `bundle/valkyrie.user.css`,
-      ],
-    }),
     json(),
     string({
       include: [
         `source/mixin/ValkyrieWorkerContent.js`, // Web Worker
         `source/html/*.html`,
-        `bundle/valkyrie.user.css`,
+        `bundle/style.min.css`,
       ], // 作为字符串导入
     }),
-    // clear({
-    //   targets: [`bundle`], // 清理文件
-    // }),
+    clear({
+      targets: [`bundle/style.min.js`], // 清理文件
+    }),
   ],
 }

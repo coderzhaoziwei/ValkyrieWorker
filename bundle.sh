@@ -1,11 +1,11 @@
 # clear
 echo "\033[2J"
 
-# version
 yarn version --no-git-tag-version --patch
 
-# rollup
-yarn rollup --config
+yarn rollup --config rollup/style.config.js
+
+yarn rollup --config rollup/rollup.config.js
 
 # copy
 if (type pbcopy >/dev/null 2>&1) then
