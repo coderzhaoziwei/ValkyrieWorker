@@ -1,0 +1,50 @@
+[
+  {
+    "seller": "店小二",
+    "selllist": [
+      "<wht>米饭</wht>",
+      "<hiy>神仙醉</hiy>",
+      "<hig>醉仙酿</hig>",
+      "<wht>女儿红</wht>",
+      "<wht>花雕酒</wht>",
+      "<wht>米酒</wht>",
+      "<wht>扬州炒饭</wht>",
+      "<wht>面条</wht>",
+      "<wht>包子</wht>",
+      "<wht>鸡腿</wht>"
+    ],
+    "commands": "stopstate,jh fam 0 start,go north,go north,go east"
+  },
+  {
+    "seller": "杂货铺老板",
+    "selllist": [
+      "<wht>长鞭</wht>",
+      "<wht>簪子</wht>",
+      "<wht>铁戒指</wht>",
+      "<wht>布鞋</wht>",
+      "<wht>英雄巾</wht>",
+      "<wht>木棍</wht>",
+      "<wht>布衣</wht>"
+    ],
+    "commands": "stopstate,jh fam 0 start,go east,go south"
+  },
+  {
+    "seller": "铁匠铺老板",
+    "selllist": [
+      "<wht>铁剑</wht>",
+      "<wht>钢刀</wht>",
+      "<wht>铁棍</wht>",
+      "<wht>铁杖</wht>",
+      "<wht>飞镖</wht>"
+    ],
+    "commands": "stopstate,jh fam 0 start,go east,go east,go south"
+  },
+  {
+    "seller": "药铺老板",
+    "selllist": [
+      "<hig>金创药</hig>",
+      "<hig>引气丹</hig>"
+    ],
+    "commands": "stopstate,jh fam 0 start,go east,go east,go north"
+  }
+]

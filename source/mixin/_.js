@@ -19,3 +19,13 @@ export default {
     })
   },
 }
+
+function to() {
+  return new Promise(async resolve => {
+
+  })
+}
+
+export default {
+  methods: { to },
+}

@@ -1,0 +1,20 @@
+.app-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0.5rem;
+  overflow: hidden;
+}
+
+.app-panel-enter-active, .app-panel-leave-active {
+  transition: all .5s ease;
+}
+.app-panel-enter-from, .app-panel-leave-to {
+  opacity: 0.1;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+}
+.app-panel-enter-to, .app-panel-leave-from {
+  opacity: 0.9;
+  max-height: 25rem;
+}

@@ -10,7 +10,7 @@ export default {
     }
   },
   computed: {
-    roomNameText() {
+    roomTitle() {
       return `${this.roomX} ${this.roomY}`
     },
   },

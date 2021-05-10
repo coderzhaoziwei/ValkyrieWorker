@@ -1,5 +1,5 @@
 import Base from "./Base"
-import PackSortList from "../data/PackSortList.json"
+import PACK_LIST from "../data/PACK_LIST.json"
 
 class Pack extends Base {
   constructor(data) {
@@ -20,7 +20,10 @@ class Pack extends Base {
     return this.can_eq === 1
   }
   get sortValue() {
-    const index = PackSortList.findIndex(name => this.name.includes(name)) + 1
+    const index = PACK_LIST.findIndex(x => {
+      const regexp = new RegExp(x, `i`)
+      return regexp.test(this.name)
+    }) + 1
     return this.colorValue + (index * 10)
   }
   get valueText() {

@@ -1,3 +1,5 @@
+import LEVEL_LIST from "../data/LEVEL_LIST.json"
+
 export default {
   data() {
     return {
@@ -7,6 +9,9 @@ export default {
     }
   },
   computed: {
+    scoreTitle() {
+      return `${this.name} ${this.serverText}`
+    },
     // 经验
     jyCache() {
       return Number(this.score.exp) || 0
@@ -77,6 +82,14 @@ export default {
     energyLimit() {
       return this.energy.limit
     },
+    // 境界
+    levelText() {
+      if (typeof this.score.level === `string`) {
+        return LEVEL_LIST.find(x => this.score.level.includes(x))
+      }
+      return ``
+    },
+
   },
   watch: {
     // 数字动态递增：经验、潜能

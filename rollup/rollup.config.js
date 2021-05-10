@@ -1,21 +1,22 @@
-import { name, version, author } from "../package.json"
+import { version } from "../package.json"
 import { string } from "rollup-plugin-string"
 import cleanup from "rollup-plugin-cleanup"
 import clear from "rollup-plugin-clear"
 import json from "@rollup/plugin-json"
+// import vuePlugin from 'rollup-plugin-vue'
 
 const tamperMonkeyMetaData = `// ==UserScript==
-// @name         ${ name }
-// @namespace    https://greasyfork.org/scripts/422783
-// @homepage     https://greasyfork.org/scripts/422783
+// @name         Valkyrie
+// @namespace    coderzhaoziwei@outlook.com
 // @version      ${ version }
-// @description  文字游戏《武神传说》的浏览器脚本程序
-// @author       ${ author }
+// @author       Coder Zhao
+// @homepage     https://greasyfork.org/scripts/422783
+// @description  文字游戏《武神传说》的浏览器脚本程序 | 自动流程 | 界面优化
 // @modified     ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString("en-DE")}
 // @license      MIT
 // @supportURL   https://github.com/coderzhaoziwei/ValkyrieWorker/issues
 // @icon         https://cdn.jsdelivr.net/gh/coderzhaoziwei/Valkyrie/source/image/wakuang.png
-// @require      https://greasyfork.org/scripts/422999/code/Vue@3.js?version=909260
+// @require      https://greasyfork.org/scripts/422999/code/Vue@3.js
 // @require      https://cdn.jsdelivr.net/npm/element3@0.0.39/dist/element3-ui.global.min.js
 // @require      https://cdn.jsdelivr.net/npm/gsap@3.6.0/dist/gsap.min.js
 // @match        http://*.wsmud.com/*
@@ -24,15 +25,8 @@ const tamperMonkeyMetaData = `// ==UserScript==
 // @run-at       document-start
 // @grant        unsafeWindow
 // @grant        GM_log
-// @grant        GM_addStyle
-// @grant        GM_addElement
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @grant        GM_deleteValue
-// @grant        GM_listValues
 // @grant        GM_setClipboard
 // @grant        GM_notification
-// @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
 // ==/UserScript==
 
@@ -64,5 +58,6 @@ export default {
     clear({
       targets: [`bundle/style.min.js`], // 清理文件
     }),
+    // vuePlugin(),
   ],
 }

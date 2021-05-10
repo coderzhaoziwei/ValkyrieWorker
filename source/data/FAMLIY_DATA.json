@@ -1,0 +1,93 @@
+{
+  "无门无派": {
+    "master": {
+      "name": "教习",
+      "commands": "stopstate,jh fam 0 start,go south,go south,go west",
+      "path": "yz/wuguan"
+    }
+  },
+  "武当派": {
+    "master": {
+      "name": "谷虚道长",
+      "commands": "stopstate,jh fam 1 start,go north",
+      "path": "wd/sanqing"
+    },
+    "chief": {
+      "name": "首席弟子",
+      "commands": "stopstate,jh fam 1 start,go west,go northup",
+      "path": "wd/taiziyan"
+    }
+  },
+  "少林派": {
+    "master": {
+      "name": "清乐比丘",
+      "commands": "stopstate,jh fam 2 start",
+      "path": "shaolin/guangchang"
+    },
+    "chief": {
+      "name": "大师兄",
+      "commands": "stopstate,jh fam 2 start,go north,go north,go northwest,go northeast,go north",
+      "path": "shaolin/lianwu"
+    }
+  },
+  "华山派": {
+    "master": {
+      "name": "高根明",
+      "commands": "stopstate,jh fam 3 start",
+      "path": "huashan/zhenyue"
+    },
+    "chief": {
+      "name": "首席弟子",
+      "commands": "stopstate,jh fam 3 start,go westup,go north",
+      "path": "huashan/lianwu"
+    }
+  },
+  "峨眉派": {
+    "master": {
+      "name": "苏梦清",
+      "commands": "stopstate,jh fam 4 start,go west",
+      "path": "emei/miaomen"
+    },
+    "chief": {
+      "name": "大师姐",
+      "commands": "stopstate,jh fam 4 start,go west,go south",
+      "path": "emei/guangchang"
+    }
+  },
+  "逍遥派": {
+    "master": {
+      "name": "苏星河",
+      "commands": "stopstate,jh fam 5 start",
+      "path": "xiaoyao/qingcaop"
+    },
+    "chief": {
+      "name": "首席弟子",
+      "commands": "stopstate,jh fam 5 start,go west",
+      "path": "xiaoyao/linjian3"
+    }
+  },
+  "丐帮": {
+    "master": {
+      "name": "左全",
+      "commands": "stopstate,jh fam 6 start,go down",
+      "path": "gaibang/shudongxia"
+    },
+    "chief": {
+      "name": "首席弟子",
+      "commands": "stopstate,jh fam 6 start,go down,go east,go east,go east",
+      "path": "gaibang/mishi"
+    }
+  },
+  "杀手楼": {
+    "master": {
+      "name": "何小二",
+      "commands": "stopstate,jh fam 7 start,go north",
+      "path": "shashou/datang"
+    },
+    "chief": {
+      "name": "金牌杀手",
+      "commands": "stopstate,jh fam 7 start,go north,go up,go up,go up,go up,go east",
+      "path": "shashou/liangong"
+    }
+  }
+}

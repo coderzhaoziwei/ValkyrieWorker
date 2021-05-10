@@ -3,25 +3,32 @@ export default {
     return {
       mapPath: ``,
       mapDataList: [],
-      mapPosition: {},
+      mapPosition: Vue.reactive({ minX: 9999, minY: 9999, maxX: 0, maxY: 0 }),
       mapRectList: [],
       mapLineList: [],
       mapTextList: [],
     }
   },
   computed: {
+    // 偏移
+    mapOffsetX() {
+      return 0 - this.mapPosition.minX
+    },
+    mapOffsetY() {
+      return 0 - this.mapPosition.minY
+    },
     mapWidth() {
       const unitX = 100
-      return (this.mapPosition.maxX + this.mapOffsetX + 1) * unitX
+      return (this.mapPosition.maxX + this.mapOffsetX + 1) * unitX || 0
     },
     mapHeight() {
       const unitY = 50
-      return (this.mapPosition.maxY + this.mapOffsetY + 1) * unitY
+      return (this.mapPosition.maxY + this.mapOffsetY + 1) * unitY || 0
     },
     mapSVG() {
       const SVGList = []
       SVGList.push(`<svg`)
-      SVGList.push(` viewBox="0,0,${this.mapWidth},${this.mapHeight}"`)
+      SVGList.push(` viewBox="0,0,${this.mapWidth>0?this.mapWidth:0},${this.mapHeight>0?this.mapHeight:0}"`)
       SVGList.push(` preserveAspectRatio="xMidYMid meet">`)
       SVGList.push(this.mapRectList.join(``))
       SVGList.push(this.mapTextList.join(``))
@@ -47,7 +54,10 @@ export default {
       this.mapDataList = datalist
     },
     updateMapPosition() {
-      this.mapPosition = { minX: 99999, minY: 99999, maxX: 0, maxY: 0 }
+      this.mapPosition.minX = 9999
+      this.mapPosition.minY = 9999
+      this.mapPosition.maxX = 0
+      this.mapPosition.maxY = 0
       this.mapDataList.forEach(data => {
         const [x, y] = data.p
         if (x < this.mapPosition.minX) this.mapPosition.minX = x
@@ -55,9 +65,6 @@ export default {
         if (y < this.mapPosition.minY) this.mapPosition.minY = y
         if (y > this.mapPosition.maxY) this.mapPosition.maxY = y
       })
-      // 偏移
-      this.mapOffsetX = 0 - this.mapPosition.minX
-      this.mapOffsetY = 0 - this.mapPosition.minY
     },
     updateMapSVG() {
       const [unitX, unitY, unitW, unitH] = [100, 50, 60, 20]

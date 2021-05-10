@@ -1,0 +1,53 @@
+.app-score-row {
+  display: flex;
+  flex-direction: row;
+
+  font-size: 1.25rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+}
+.app-score-title {
+  flex: 0 0 auto;
+  padding: 0 0.5rem 0 0;
+  text-align: center;
+}
+.app-score-value {
+  flex: 0 0 auto;
+  width: 12rem;
+  text-align: left;
+  font-family: monospace;
+}
+
+
+.app-progress {
+  padding: 0;
+}
+.app-progress .el-progress-bar__outer {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 0.25rem;
+}
+.app-progress .el-progress-bar__inner {
+  border-radius: 0.25rem;
+}
+.app-progress .el-progress-bar__innerText {
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+  color: rgb(216, 216, 216, 0.9);
+  line-height: 16px;
+}
+.app-progress-hp .el-progress-bar__inner {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+.app-progress-mp .el-progress-bar__inner {
+  background-color: rgba(0, 0, 255, 0.5);
+}
+.app-progress-hp .el-progress-bar__innerText::before {
+  content: '气血 ';
+}
+.app-progress-mp .el-progress-bar__innerText::before {
+  content: '内力 ';
+}
+.app-progress-mp {
+  margin-bottom: 0.2rem;
+}

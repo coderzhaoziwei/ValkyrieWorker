@@ -1,0 +1,28 @@
+.app-task-row {
+  display: flex;
+  font-family: 'Ma Shan Zheng', cursive !important;
+}
+.app-task-title {
+  flex: 0 0 auto;
+}
+.app-task-value {
+  flex: 1 0 auto;
+  text-align: right;
+}
+
+
+/* .v-task {
+  font-size: 1rem;
+  line-height: 1.25rem;
+  padding: 0.5rem;
+  overflow: hidden;
+} */
+
+.app-task-option-title {
+  width: 100%;
+}
+.app-task-button {
+  width: 100%;
+  margin: 1rem 3rem 0 3rem;
+  background-color: rgba(0, 0, 0, 0.25);
+}

@@ -35,24 +35,24 @@ export default {
         if (skill === null) return
         if (this.hasOwn(data, `level`)) {
           skill.level = Number(data.level) || 1
-          this.onText(`你的技能${ skill.name }提升到了<hiw>${ skill.level }</hiw>级！`)
+          this.onText(`你的技能${skill.name}提升到了<hiw>${skill.level}</hiw>级！`)
         }
         // 技能经验
         if (this.hasOwn(data, `exp`)) {
           skill._exp = data.exp
           switch (this.stateText) {
             case `练习`:
-              this.onText(`你练习${ skill.name }消耗了${ this.lxCost }点潜能。${ data.exp }%`)
-              this.state.detail = skill.nameText
+              this.onText(`你练习${ skill.name }消耗了${ this.lxCost }点潜能。${data.exp}%`)
+              this.stateText = `练习${skill.nameText}`
               this.score.pot -= this.lxCost
               break
             case `学习`:
-              this.onText(`你学习${ skill.name }消耗了${ this.xxCost }点潜能。${ data.exp }%`)
-              this.state.detail = skill.nameText
+              this.onText(`你学习${ skill.name }消耗了${ this.xxCost }点潜能。${data.exp}%`)
+              this.stateText = `学习${skill.nameText}`
               this.score.pot -= this.xxCost
               break
             case `炼药`:
-              this.onText(`你获得了炼药经验，${ skill.name }当前<hiw>${ skill.level }</hiw>级。${ data.exp }%`)
+              this.onText(`你获得了炼药经验，${skill.name}当前<hiw>${skill.level}</hiw>级。${data.exp}%`)
               break
           }
         }

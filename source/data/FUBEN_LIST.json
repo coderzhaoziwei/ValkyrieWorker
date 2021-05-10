@@ -1,0 +1,290 @@
+[
+  {
+    "index": 0,
+    "name": "树林",
+    "id": "yz/lw/shangu",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 1,
+    "name": "财主家",
+    "id": "yz/cuifu/caizhu",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 2,
+    "name": "流氓巷",
+    "id": "yz/lmw/xiangzi1",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 3,
+    "name": "丽春院",
+    "id": "yz/lcy/dating",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 4,
+    "name": "兵营",
+    "id": "yz/by/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 5,
+    "name": "庄府",
+    "id": "bj/zhuang/xiaolu",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 6,
+    "name": "鳌拜府",
+    "id": "bj/ao/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 7,
+    "name": "天地会",
+    "id": "bj/tdh/hct",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 8,
+    "name": "神龙教",
+    "id": "bj/shenlong/haitan",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 9,
+    "name": "关外",
+    "id": "bj/guanwai/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 10,
+    "name": "温府",
+    "id": "cd/wen/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 11,
+    "name": "五毒教",
+    "id": "cd/wudu/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 12,
+    "name": "恒山",
+    "id": "wuyue/hengshan/daziling",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 13,
+    "name": "青城山",
+    "id": "wuyue/qingcheng/shanlu",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 14,
+    "name": "衡山",
+    "id": "wuyue/henshan/hengyang",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 15,
+    "name": "泰山",
+    "id": "wuyue/taishan/daizong",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 16,
+    "name": "嵩山",
+    "id": "wuyue/songshan/taishi",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 17,
+    "name": "云梦沼泽",
+    "id": "cd/yunmeng/senlin",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 18,
+    "name": "桃花岛",
+    "id": "taohua/haitan",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 19,
+    "name": "白驼山",
+    "id": "baituo/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 20,
+    "name": "星宿海",
+    "id": "xingxiu/xxh6",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 21,
+    "name": "冰火岛",
+    "id": "mj/bhd/haibian",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 22,
+    "name": "移花宫",
+    "id": "huashan/yihua/shandao",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 23,
+    "name": "燕子坞",
+    "id": "murong/anbian",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 24,
+    "name": "黑木崖",
+    "id": "heimuya/shangu",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 25,
+    "name": "缥缈峰",
+    "id": "lingjiu/shanjiao",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 26,
+    "name": "光明顶",
+    "id": "mj/shanmen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 27,
+    "name": "天龙寺",
+    "id": "tianlong/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 28,
+    "name": "血刀门",
+    "id": "xuedao/shankou",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 29,
+    "name": "古墓派",
+    "id": "gumu/gumukou",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 30,
+    "name": "华山论剑",
+    "id": "huashan/lunjian/leitaixia",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 31,
+    "name": "侠客岛",
+    "id": "xkd/shimen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 32,
+    "name": "净念禅宗",
+    "id": "chanzong/shanmen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 33,
+    "name": "慈航静斋",
+    "id": "cihang/shanmen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 34,
+    "name": "阴阳谷",
+    "id": "yyg/ya",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  },
+  {
+    "index": 35,
+    "name": "战神殿",
+    "id": "zsd/damen",
+    "diff": false,
+    "team": false,
+    "desc": ""
+  }
+]

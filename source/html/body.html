@@ -1,0 +1,152 @@
+<div id="app">
+  <!-- 房间 -->
+  <teleport to="#app-room">
+    <!-- 房间标题 -->
+    <app-header :title="roomTitle" v-model:show="options.showPanelRoom">
+      <app-icon class="mr-2" icon="el-icon-map-location" @click="options.showMapDialog=true;send(`map`);"></app-icon>
+    </app-header>
+    <!-- 房间面板 -->
+    <app-panel :show="options.showPanelRoom">
+      <span class="app-room-desc" v-html="roomDesc"></span>
+    </app-panel>
+    <!-- 地图弹窗 -->
+    <app-dialog :width="mapWidthStyle" :title="mapTitle" v-model:show="options.showMapDialog">
+      <div :style="mapStyle" class="app-room-map unselectable" v-html="mapSVG"></div>
+    </app-dialog>
+  </teleport>
+  <!-- 左侧边栏 -->
+  <teleport to="#app-left" v-show="id">
+    <!-- 属性标题 -->
+    <app-header :title="scoreTitle" v-model:show="options.showPanelScore">
+      <app-icon class="mr-2" v-if="genderText === '女'" icon="el-icon-female"></app-icon>
+      <app-icon class="mr-2" v-else-if="genderText === '男'" icon="el-icon-male"></app-icon>
+      <app-icon class="mr-2" v-else icon="el-icon-cherry"></app-icon>
+    </app-header>
+    <!-- 属性面板 -->
+    <app-panel :show="options.showPanelScore">
+      <!-- 境界 门派 -->
+      <div class="app-score-row">
+        <div class="app-score-title font-cursive" v-html="score.level"></div>
+        <div class="app-score-value font-cursive" v-text="familyText"></div>
+      </div>
+      <!-- 气血 -->
+      <el-progress class="app-progress app-progress-hp" :text-inside="true" :stroke-width="16" :percentage="hpPercentage"></el-progress>
+      <!-- 内力 -->
+      <el-progress class="app-progress app-progress-mp" :text-inside="true" :stroke-width="16" :percentage="mpPercentage"></el-progress>
+      <!-- 经验 -->
+      <div class="app-score-row">
+        <div class="app-score-title font-cursive">经验</div>
+        <div class="app-score-value" v-text="jyText"></div>
+      </div>
+      <!-- 潜能 -->
+      <div class="app-score-row">
+        <div class="app-score-title font-cursive">潜能</div>
+        <div class="app-score-value" v-text="qnText"></div>
+      </div>
+    </app-panel>
+
+    <!-- 任务标题 -->
+    <app-header title="任务" v-model:show="options.showPanelTask"></app-header>
+    <!-- 任务面板 -->
+    <app-panel :show="options.showPanelTask">
+      <!-- 副本 -->
+      <div class="app-task-row" :class="20>fbCount?'red-text':'green-text'">
+        <div class="app-task-title">日常副本</div>
+        <div class="app-task-value font-monospace">{{fbCount}}/20</div>
+      </div>
+      <!-- 请安 -->
+      <div class="app-task-row red-text" v-show="qaComplete===false">
+        <div class="app-task-title">日常请安</div>
+        <div class="app-task-value">未完成</div>
+      </div>
+      <!-- 师门 -->
+      <div class="app-task-row" :class="20>smCount?'red-text':'green-text'">
+        <div class="app-task-title">日常师门</div>
+        <div class="app-task-value font-monospace">{{smCount}}/20/{{smTotal}}</div>
+      </div>
+      <div class="app-task-row red-text" v-show="smTarget">
+        <div class="app-task-title">师门目标</div>
+        <div class="app-task-value font-cursive" v-html="smTarget"></div>
+      </div>
+      <!-- 追捕 -->
+      <div class="app-task-row" :class="20>ymCount?'red-text':'green-text'">
+        <div class="app-task-title">日常追捕</div>
+        <div class="app-task-value font-monospace">{{ymCount}}/20/{{ymTotal}}</div>
+      </div>
+      <div class="app-task-row red-text" v-show="ymTarget">
+        <div class="app-task-title">追捕目标</div>
+        <div class="app-task-value">
+          <span>{{ymTargetX}} {{ymTargetY}}</span>
+          <span class="yellow-text pl-2">{{ymTarget}}</span>
+        </div>
+      </div>
+
+      <!-- 武道塔 -->
+      <div class="app-task-row" :class="wdComplete===false||wdTotal>wdCount?'red-text':'green-text'">
+        <div class="app-task-title">日常武道</div>
+        <div class="app-task-value">
+          <span v-show="wdComplete===false">可重置</span>
+          <span class="font-monospace pl-2">{{wdCount}}/{{wdTotal}}</span>
+        </div>
+      </div>
+      <!-- 运镖 -->
+      <div class="app-task-row" :class="20>ybCount?'red-text':'green-text'">
+        <div class="app-task-title">周常运镖</div>
+        <div class="app-task-value font-monospace">{{ybCount}}/20/{{ybTotal}}</div>
+      </div>
+      <!-- 襄阳战 -->
+      <div class="app-task-row" :class="xyComplete===false?'red-text':'green-text'">
+        <div class="app-task-title">周常襄阳</div>
+        <div class="app-task-value" v-text="xyComplete?'已完成':'未完成'"></div>
+      </div>
+      <!-- 门派 BOSS -->
+      <div class="app-task-row" :class="mpComplete===false?'red-text':'green-text'">
+        <div class="app-task-title">周常门派</div>
+        <div class="app-task-value" v-text="mpComplete?'已完成':'未完成'"></div>
+      </div>
+      <!-- 按钮 -->
+      <app-button @click="options.showTaskDialog=true;">日常</app-button>
+      <!-- 弹窗 -->
+      <app-dialog width="24rem" title="日常任务" v-model:show="options.showTaskDialog">
+        <div class="app-task-option-title">副本扫荡</div>
+        <el-checkbox label="开启" v-model="options.canTaskFb"></el-checkbox>
+        <!-- <div class="app-task-option-title"></div> -->
+        <el-select v-show="options.canTaskFb" v-model="options.canTaskFbId" style="width:6rem;margin:0 0.5rem 0.25rem 0;">
+          <el-option v-for="x in FUBEN_LIST" :label="x.name" :value="x.id" :key="x.id + x.name"></el-option>
+        </el-select>
+        <el-select v-show="options.canTaskFb" v-model="options.canTaskFbType" style="width:4.5rem;margin:0 0.5rem 0.25rem 0;">
+          <el-option label="普通" :value="0"></el-option>
+          <el-option label="困难" :value="1"></el-option>
+        </el-select>
+        <el-checkbox label="古宗门" v-model="options.canTaskGzm" v-show="options.canTaskFb"></el-checkbox>
+
+        <div v-show="levelText!=='武神'" class="app-task-option-title">自动请安</div>
+        <el-checkbox label="开启" v-show="levelText!=='武神'" v-model="options.canTaskQa"></el-checkbox>
+        <div class="app-task-option-title">自动师门</div>
+        <el-checkbox label="开启" v-model="options.canTaskSm" ></el-checkbox>
+        <el-checkbox label="仓库物品" v-show="options.canTaskSm" v-model="options.canTaskSmStore"></el-checkbox>
+        <el-checkbox label="师门令牌" v-show="options.canTaskSm" v-model="options.canTaskSmCard"></el-checkbox>
+        <el-checkbox label="允许放弃" v-show="options.canTaskSm" v-model="options.canTaskSmGiveup"></el-checkbox>
+        <div class="app-task-option-title">自动衙门追捕</div>
+        <el-checkbox label="开启" v-model="options.canTaskYm"></el-checkbox>
+        <el-checkbox label="元宝扫荡" v-show="options.canTaskYm" v-model="options.canTaskYmSweep"></el-checkbox>
+        <el-checkbox label="允许放弃" v-show="options.canTaskYm" v-model="options.canTaskYmGiveup"></el-checkbox>
+        <div class="app-task-option-title">自动武道塔</div>
+        <el-checkbox label="开启" v-model="options.canTaskWd"></el-checkbox>
+
+        <div class="app-task-option-title">挂机</div>
+        <el-checkbox label="挖矿" v-model="options.canTaskEndWk"></el-checkbox>
+        <el-checkbox label="闭关" v-model="options.canTaskEndBg"></el-checkbox>
+        <el-checkbox label="打坐" v-model="options.canTaskEndDz"></el-checkbox>
+        <app-button class="app-task-button" @click="options.showTaskDialog=false;toTask();">开始日常</app-button>
+      </app-dialog>
+    </app-panel>
+
+
+
+  </teleport>
+  <!-- 右侧边栏 -->
+  <teleport to="#app-right" v-show="id"></teleport>
+</div>
+<div id="app-left" class="app-sidebar"></div>
+<div id="app-right" class="app-sidebar"></div>

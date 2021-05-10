@@ -1,0 +1,50 @@
+.app-header,
+div.app-room-title,
+div.mypanel > ul > li.panel_item.active,
+div.dialog > div.dialog-header {
+  padding: 0 0.5rem;
+  margin-bottom: 0.125rem;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  height: 2rem !important;
+
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  color: rgb(216, 216, 216) !important; /* 216=6^3 */
+  background-color: rgba(32, 32, 32, 0.75) !important;
+}
+
+/* 登录面板标题样式 */
+div.mypanel > ul > li.panel_item.active {
+  font-family: 'Ma Shan Zheng', cursive;
+}
+/* 原游戏弹窗标题样式修改 */
+div.dialog > div.dialog-header {
+  display: flex;
+  border-bottom: 1px solid rgb(64, 64, 64);
+}
+div.dialog > div.dialog-header > span.dialog-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  color: rgb(216, 216, 216);
+  text-align: center;
+}
+div.dialog > div.dialog-header > span.dialog-title {
+  flex: 1 0 auto;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  color: rgb(216, 216, 216);
+  font-family: 'Ma Shan Zheng', cursive;
+}
+div.dialog > div.dialog-header > span.dialog-close {
+  width: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  color: rgb(216, 216, 216);
+  right: 0;
+  text-align: center;
+}

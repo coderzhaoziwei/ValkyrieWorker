@@ -30,30 +30,7 @@ export default {
       data.items.forEach(x => {
         const { id, state, title, desc } = x
         switch (id) {
-          case `signin`:
-            // 副本：<hik>0/20</hik>
-            // 副本：<hig>20/20</hig>
-            if (/副本：<[\S]{3}>(\d+)\/20<[\S]{4}>/.test(desc)) {
-              this.fbCount = Number(RegExp.$1) || 0
-            }
-            // <hig>武道塔可以重置，进度20/29</hig>，
-            // <nor>武道塔已重置，进度99/99</nor>，
-            if (/武道塔([\S]{1,2})重置，进度(\d+)\/(\d+)/.test(desc)) {
-              this.wdComplete = (RegExp.$1 === `已`)
-              this.wdCount = Number(RegExp.$2) || 0
-              this.wdTotal = Number(RegExp.$3) || 0
-            }
-            // <hig>还没有给首席请安</hig>
-            // 本周尚未协助襄阳守城，尚未挑战门派BOSS，还可以挑战武神BOSS5次。
-            this.qaComplete = (/还没有给首席请安/.test(desc) === false)
-            this.xyComplete = (/本周尚未协助襄阳守城/.test(desc) === false)
-            this.mpComplete = (/尚未挑战门派BOSS/.test(desc) === false)
-            // 自动签到
-            if (state === 2) {
-              this.onText(`[ ${title} ]`, `him`)
-              this.sendCommands(`taskover signin`)
-            }
-            break
+
           case `sm`:
             // 你的师门委托目前完成0/20个，共连续完成16个。
             if (/目前完成(\d+)\/20个，共连续完成(\d+)个/.test(desc)) {
@@ -85,13 +62,33 @@ export default {
               this.ybTotal = Number(RegExp.$2) || 0
             }
             break
+          case `signin`:
+            // 副本：<hik>0/20</hik>
+            // 副本：<hig>20/20</hig>
+            if (/副本：<[\S]{3}>(\d+)\/20<[\S]{4}>/.test(desc)) {
+              this.fbCount = Number(RegExp.$1) || 0
+            }
+            // <hig>武道塔可以重置，进度20/29</hig>，
+            // <nor>武道塔已重置，进度99/99</nor>，
+            if (/武道塔([\S]{1,2})重置，进度(\d+)\/(\d+)/.test(desc)) {
+              this.wdComplete = (RegExp.$1 === `已`)
+              this.wdCount = Number(RegExp.$2) || 0
+              this.wdTotal = Number(RegExp.$3) || 0
+            }
+            // <hig>还没有给首席请安</hig>
+            // 本周尚未协助襄阳守城，尚未挑战门派BOSS，还可以挑战武神BOSS5次。
+            this.qaComplete = (/还没有给首席请安/.test(desc) === false)
+            this.xyComplete = (/本周尚未协助襄阳守城/.test(desc) === false)
+            this.mpComplete = (/尚未挑战门派BOSS/.test(desc) === false)
           default:
             if (state === 2) {
-              this.onText(`任务[${title}]已经可以领取奖励。`, `him`)
-              // 2021-05-01 ~ 2021-05-05 节日礼包
-              if (id === `zz1` && title === `<hic>节日礼包</hic>` && desc === `节日快乐，你尚未领取节日礼包。`) {
-                this.sendCommands(`taskover ${id}`)
-              }
+              this.onText(`${title}任务已完成。`, `hig`)
+              if (
+                // 每日签到
+                (id === `signin`) ||
+                // 五一节日礼包 2021-05-01 ~ 2021-05-05
+                (id === `zz1` && title === `<hic>节日礼包</hic>` && desc === `节日快乐，你尚未领取节日礼包。`)
+              ) this.send(`taskover ${id}`)
             }
             break
         }
