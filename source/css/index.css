@@ -89,6 +89,11 @@ pre, .task-desc, .room_items, .dialog, .content-bottom {
 .login-content .signinfo, .login-content .signinfo a {
   color: rgb(216, 216, 216);
 }
+/* 地图 SVG 居中 */
+.room_exits {
+  display: flex;
+  justify-content: center; /* 居中 */
+}
 /* 角色状态 */
 .state-bar > .title {
   font-size: 0.75rem;

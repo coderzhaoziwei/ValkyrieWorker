@@ -10,7 +10,8 @@ export default {
   },
   computed: {
     scoreTitle() {
-      return `${this.name} ${this.serverText}`
+      // return `${this.name} ${this.serverText}`
+      return `${this.name}`
     },
     // 经验
     jyCache() {

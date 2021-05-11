@@ -12,6 +12,7 @@ import "./arrow.css"
 import "./panel.css"
 import "./header.css"
 import "./button.css"
+import "./background.css"
 
 // panel
 import "./room.css"

@@ -39,6 +39,10 @@ export default {
         showChannelEs: true,
         showChannelSy: true,
         showChannelRu: true,
+
+        // background-image: url(https://cdn.jsdelivr.net/gh/coderzhaoziwei/Valkyrie/source/image/y726730.jpg);
+
+        backgroundImage: `https://cdn.jsdelivr.net/gh/coderzhaoziwei/Valkyrie/source/image/y726730.jpg`,
       }),
     }
   },
@@ -61,6 +65,8 @@ export default {
         this.options.showMapDialog = false
         this.options.showTaskDialog = false
 
+        // 设置背景图
+        document.getElementById(`app`).style.backgroundImage = `url(${this.options.backgroundImage})`
       }
     })
   },
