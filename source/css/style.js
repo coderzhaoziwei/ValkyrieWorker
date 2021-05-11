@@ -17,5 +17,6 @@ import "./button.css"
 import "./room.css"
 import "./score.css"
 import "./task.css"
+import "./channel.css"
 
 console.log(`Extract to 'bundle/style.min.css'.`)

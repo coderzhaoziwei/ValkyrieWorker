@@ -1,0 +1,66 @@
+.app-channel {
+  flex: 1 1 auto;
+  margin: 0.25rem 0;
+}
+
+.app-chat-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.app-chat {
+  display: flex;
+  /* padding: 0 0.25rem; */
+  font-size: 0.75rem;
+  flex-direction: column;
+}
+.app-chat-time {
+  padding: 0 0.25rem;
+  color: #404040;
+  font-family: monospace;
+}
+.app-chat-content {
+  width: fit-content;
+
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  margin: 0.1rem 1rem 0.5rem 0;
+
+  background-color: rgba(64, 64, 64, 0.5);
+  word-break: break-word;
+}
+
+.app-chat-self > .app-chat-title {
+  align-self: flex-end;
+}
+.app-chat-self > .app-chat-content {
+  align-self: flex-end;
+  margin: 0.1rem 0 0.5rem 1rem;
+  background-color: rgba(96, 96, 96, 0.5);
+}
+
+/* 选择器 */
+.app-channel-select {
+  width: 4.5rem;
+}
+.app-channel-select .el-input__inner {
+  border-bottom-left-radius: unset;
+  border-bottom-right-radius: unset;
+  border-bottom-color: transparent;
+  background-color: rgba(32, 32, 32, 0.5);
+}
+
+/* 输入框 */
+.app-channel-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.app-channel-input textarea {
+  font-size: 0.75rem;
+  border-top-left-radius: unset;
+  background-color: rgba(32, 32, 32, 0.5);
+}
+.app-channel-input .el-input__count {
+  background-color: rgba(0,0,0,0);
+}

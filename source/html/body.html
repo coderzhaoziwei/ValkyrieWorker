@@ -142,11 +142,41 @@
       </app-dialog>
     </app-panel>
 
-
-
   </teleport>
   <!-- 右侧边栏 -->
-  <teleport to="#app-right" v-show="id"></teleport>
+  <teleport to="#app-right" v-show="id">
+    <!-- 频道标题 -->
+    <app-header title="聊天频道" v-model:show="options.showPanelChannel">
+      <!-- <app-icon class="mr-2" icon="el-icon-map-location" @click="options.showMapDialog=true;send(`map`);"></app-icon> -->
+    </app-header>
+    <!-- 频道面板 -->
+    <app-panel class="app-channel" :show="options.showPanelRoom">
+      <div class="app-chat-list">
+        <div class="app-chat" v-for="x in chatList" :class="x.isSelf?'app-chat-self':''">
+          <div class="app-chat-title">
+            <span class="app-chat-time" v-text="x.timeText" v-show="x.isSelf"></span>
+            <span class="app-chat-name" v-html="x.titleHtml" @click="send(x.command)"></span>
+            <span class="app-chat-time" v-text="x.timeText" v-show="!x.isSelf"></span>
+          </div>
+          <div class="app-chat-content" v-html="x.contentHtml"></div>
+        </div>
+        <div id="app-channel-bottom"></div>
+      </div>
+
+      <!-- 频道选择器 -->
+      <el-select class="app-channel-select" v-model="channelValue">
+        <el-option v-for="x in channelList" :label="x.label" :value="x.value" :key="x.value"></el-option>
+      </el-select>
+      <!-- 发言输入框 -->
+      <div class="app-channel-input">
+        <el-input
+          type="textarea" rows="2" resize="none" maxlength="200" show-word-limit
+          v-model="chatValue" v-on:keyup.enter="sendChat()"
+        ></el-input>
+        <app-icon icon="el-icon-s-promotion ml-2" @click="sendChat()"></app-icon>
+      </div>
+    </app-panel>
+  </teleport>
 </div>
 <div id="app-left" class="app-sidebar"></div>
 <div id="app-right" class="app-sidebar"></div>

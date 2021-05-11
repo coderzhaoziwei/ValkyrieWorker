@@ -63,11 +63,24 @@ class Chat {
     if (this.isCh) return [`百姓`, `武士`, `武师`, `宗师`, `武圣`, `武帝`, `武神`][this.level] || `闲聊`
     return `脚本`
   }
-  get titleHtml() {
-    return `<${this.tag}>【${this.titleText}】</${this.tag}>`
-  }
   get timeText() {
     return new Date(this.time).toLocaleTimeString(`en-DE`)
+  }
+  get titleHtml() {
+    return `<${this.tag}>【${this.titleText}】${this.name}</${this.tag}>`
+  }
+  get contentHtml() {
+    return `<${this.tag}>${this.content}</${this.tag}>`
+  }
+  get command() {
+    // 谣言 系统
+    if (this.isRu || this.isSy) {
+      return ``
+    }
+    if (this.isTm || this.isSelf) {
+      return `look3 body of ${this.id}`
+    }
+    return `look3 ${this.id},look3 body of ${this.id}`
   }
 }
 

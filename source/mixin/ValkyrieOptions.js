@@ -9,6 +9,7 @@ export default {
         showPanelRoom: true, // 房间面板
         showPanelScore: true,
         showPanelTask: true,
+        showPanelChannel: true,
 
         showMapDialog: false, // 地图弹窗
         showTaskDialog: false,
@@ -30,6 +31,14 @@ export default {
         canTaskEndWk: false,
         canTaskEndBg: false,
         canTaskEndDz: false,
+
+        showChannelCh: true,
+        showChannelTm: true,
+        showChannelFa: true,
+        showChannelPt: true,
+        showChannelEs: true,
+        showChannelSy: true,
+        showChannelRu: true,
       }),
     }
   },

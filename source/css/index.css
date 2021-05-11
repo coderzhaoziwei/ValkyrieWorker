@@ -31,6 +31,9 @@ body {
   flex: 0 1 auto;
   color: rgb(216, 216, 216);
   width: 16rem;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .font-cursive {
