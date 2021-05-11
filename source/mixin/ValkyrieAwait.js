@@ -54,8 +54,20 @@ export default {
     // 等待战斗的结束
     awaitCombatEnd(timeout = 300000) {
       return new Promise(resolve => {
-        const id = setInterval(() => (this.stateState !== `战斗`) && [resolve(false), this.onText(`战斗异常结束。`, `hir`)], timeout)
-        const clearEvent = this.on(`combat`, data => (data.end === 1) && [resolve(true), clearEvent(), clearInterval(id)])
+        const id = setInterval(() => {
+          if (this.stateState !== `战斗`) {
+            resolve(false)
+            clearInterval(id)
+            this.onText(`战斗异常结束。`, `hir`)
+          }
+        }, timeout)
+        const clearEvent = this.on(`combat`, data => {
+          if (data.end === 1) {
+            clearEvent()
+            resolve(true)
+            clearInterval(id)
+          }
+        })
       })
     },
   },
