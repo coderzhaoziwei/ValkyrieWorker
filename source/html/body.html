@@ -147,8 +147,19 @@
   <teleport to="#app-right" v-show="id">
     <!-- 频道标题 -->
     <app-header title="聊天频道" v-model:show="options.showPanelChannel">
-      <!-- <app-icon class="mr-2" icon="el-icon-map-location" @click="options.showMapDialog=true;send(`map`);"></app-icon> -->
+      <app-icon class="mr-2" icon="el-icon-setting" @click="options.showChannelDialog=true;"></app-icon>
     </app-header>
+    <!-- 频道弹窗 -->
+    <app-dialog width="232px" title="聊天频道设置" v-model:show="options.showChannelDialog">
+      <el-checkbox v-model="options.showChannelCh" label="世界"></el-checkbox>
+      <el-checkbox v-model="options.showChannelTm" label="队伍"></el-checkbox>
+      <el-checkbox v-model="options.showChannelFa" label="门派"></el-checkbox>
+      <el-checkbox v-model="options.showChannelPt" label="帮会"></el-checkbox>
+      <div style="width:100%;"></div>
+      <el-checkbox v-model="options.showChannelEs" label="全区"></el-checkbox>
+      <el-checkbox v-model="options.showChannelRu" label="谣言"></el-checkbox>
+      <el-checkbox v-model="options.showChannelSy" label="系统"></el-checkbox>
+    </app-dialog>
     <!-- 频道面板 -->
     <app-panel class="app-channel" :show="options.showPanelRoom">
       <div class="app-chat-list">
@@ -173,7 +184,7 @@
           type="textarea" rows="2" resize="none" maxlength="200" show-word-limit
           v-model="chatValue" v-on:keyup.enter="sendChat()"
         ></el-input>
-        <app-icon icon="el-icon-s-promotion ml-2" @click="sendChat()"></app-icon>
+        <app-icon class="ml-2" icon="el-icon-s-promotion" @click="sendChat()"></app-icon>
       </div>
     </app-panel>
   </teleport>

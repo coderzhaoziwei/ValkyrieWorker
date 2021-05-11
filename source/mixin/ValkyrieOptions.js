@@ -13,6 +13,7 @@ export default {
 
         showMapDialog: false, // 地图弹窗
         showTaskDialog: false,
+        showChannelDialog: false,
 
         canTaskFb: false,
         canTaskFbId: `yz/lw/shangu`,
@@ -40,8 +41,6 @@ export default {
         showChannelSy: true,
         showChannelRu: true,
 
-        // background-image: url(https://cdn.jsdelivr.net/gh/coderzhaoziwei/Valkyrie/source/image/y726730.jpg);
-
         backgroundImage: `https://cdn.jsdelivr.net/gh/coderzhaoziwei/Valkyrie/source/image/y726730.jpg`,
       }),
     }
@@ -64,7 +63,7 @@ export default {
         // 默认关闭弹窗
         this.options.showMapDialog = false
         this.options.showTaskDialog = false
-
+        this.options.showChannelDialog = false
         // 设置背景图
         document.getElementById(`app`).style.backgroundImage = `url(${this.options.backgroundImage})`
       }
