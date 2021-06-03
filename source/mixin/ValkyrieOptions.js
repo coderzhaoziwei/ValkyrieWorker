@@ -9,6 +9,8 @@ export default {
         showPanelRoom: true, // 房间面板
         showPanelScore: true,
         showPanelTask: true,
+        showPanelOnekey: true,
+        showPanelPerform: true,
         showPanelChannel: true,
 
         showMapDialog: false, // 地图弹窗

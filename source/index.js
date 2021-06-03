@@ -15,6 +15,8 @@ import OnState from "./mixin/OnState"
 import OnScore from "./mixin/OnScore"
 import OnPack from "./mixin/OnPack"
 import OnSkills from "./mixin/OnSkills"
+import OnPerform from "./mixin/OnPerform"
+
 import OnTasks from "./mixin/OnTasks"
 import OnList from "./mixin/OnList"
 import OnMsg from "./mixin/OnMsg"
@@ -48,6 +50,7 @@ const app = Vue.createApp({
     OnScore,
     OnPack,
     OnSkills,
+    OnPerform,
     OnTasks,
     OnList,
     OnMsg,

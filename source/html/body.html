@@ -14,8 +14,11 @@
       <div :style="mapStyle" class="app-room-map unselectable" v-html="mapSVG"></div>
     </app-dialog>
   </teleport>
+
+
   <!-- 左侧边栏 -->
   <teleport to="#app-left" v-show="id">
+
     <!-- 属性标题 -->
     <app-header :title="scoreTitle" v-model:show="options.showPanelScore">
       <app-icon class="mr-2" v-if="genderText === '女'" icon="el-icon-female"></app-icon>
@@ -110,7 +113,6 @@
       <app-dialog width="24rem" title="日常任务" v-model:show="options.showTaskDialog">
         <div class="app-task-option-title">副本扫荡</div>
         <el-checkbox label="开启" v-model="options.canTaskFb"></el-checkbox>
-        <!-- <div class="app-task-option-title"></div> -->
         <el-select v-show="options.canTaskFb" v-model="options.canTaskFbId" style="width:6rem;margin:0 0.5rem 0.25rem 0;">
           <el-option v-for="x in FUBEN_LIST" :label="x.name" :value="x.id" :key="x.id + x.name"></el-option>
         </el-select>
@@ -142,7 +144,26 @@
       </app-dialog>
     </app-panel>
 
+    <!-- 快捷标题 -->
+    <app-header title="快捷" v-model:show="options.showPanelOnekey"></app-header>
+    <!-- 快捷面板 -->
+    <app-panel :show="options.showPanelOnekey">
+      <app-button @click="toClear()">清包</app-button>
+      <app-button @click="toWakuang()">挖矿</app-button>
+      <app-button @click="toXiulian()">修炼</app-button>
+    </app-panel>
+
+    <!-- 出招标题 -->
+    <app-header title="出招" v-model:show="options.showPanelPerform"></app-header>
+    <!-- 出招面板 -->
+    <app-panel :show="options.showPanelPerform">
+      <!-- perform -->
+
+    </app-panel>
+
   </teleport>
+
+
   <!-- 右侧边栏 -->
   <teleport to="#app-right" v-show="id">
     <!-- 频道标题 -->
