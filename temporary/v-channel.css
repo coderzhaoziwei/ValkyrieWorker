@@ -1,0 +1,25 @@
+.v-channel-options {
+  flex: 0 0 auto;
+  padding: 0 0.75em 1em 0.75em;
+  top: 2em;
+  position: absolute;
+  background: rgba(64, 64, 64, 0.95);
+}
+.v-channel-options-title {
+  height: 2em;
+  line-height: 2em;
+  font-size: 0.75em;
+  margin-top: 0.5em;
+}
+.v-channel-options .el-input {
+  width: 6em;
+}
+
+/* 聊天展示列 */
+
+
+
+/* 频道选择器 */
+
+
+/* 发言输入框 */
